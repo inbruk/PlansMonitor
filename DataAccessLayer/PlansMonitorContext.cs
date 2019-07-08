@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataAccessLayer
 {
-    public partial class PlansMonitorContext : DbContext
+    public partial class PlansMonitorContext : DbContext 
     {
         public PlansMonitorContext()
         {

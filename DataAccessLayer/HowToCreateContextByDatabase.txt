@@ -1,0 +1,4 @@
+Средства -> CommandPrompt
+
+G:\Work_freelance\!!!PlansMonitor\Source\PCAMonitor\DataAccessLayer>
+dotnet ef dbcontext scaffold "Host=localhost;Database=PlansMonitor;Username=postgres;Password=12345" Npgsql.EntityFrameworkCore.PostgreSQL
