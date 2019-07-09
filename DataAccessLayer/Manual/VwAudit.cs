@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DataAccessLayer
 {
-    public partial class TblAudit
+    public class VwAudit
     {
-        public TblAudit()
-        {
-            TblCorrectiveAction = new HashSet<TblCorrectiveAction>();
-            TblFileStorage = new HashSet<TblFileStorage>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? AuditObject { get; set; }
         public DateTime VerificationPeriodStart { get; set; }
         public DateTime VerificationPeriodStop { get; set; }
         public string GroundForVerification { get; set; }
@@ -24,20 +18,26 @@ namespace DataAccessLayer
         public string VerificationPeriod { get; set; }
         public DateTime VerificationTermStart { get; set; }
         public string VerficationTermEnd { get; set; }
-        public int ResponsibleEmployee { get; set; }
         public string NumberAndDateLocRegPrepare { get; set; }
         public string NumberAndDateLocRegAcceptance { get; set; }
         public DateTime? CapmonitoringCompletedOnDate { get; set; }
         public DateTime? NextCapmonitoringDate { get; set; }
-        public int AuditSubject { get; set; }
-        public int MonitoringProgressStatus { get; set; }
         public DateTime? CapmonitoringCompleteDate { get; set; }
-        public int? AuditSuperviser { get; set; }
-
-        public virtual TblAuditObject AuditObjectNavigation { get; set; }
-        public virtual TblUser AuditSuperviserNavigation { get; set; }
-        public virtual TblUser ResponsibleEmployeeNavigation { get; set; }
-        public virtual ICollection<TblCorrectiveAction> TblCorrectiveAction { get; set; }
-        public virtual ICollection<TblFileStorage> TblFileStorage { get; set; }
+        public int AuditSubjectPos { get; set; }
+        public string AuditSubjectName { get; set; }
+        public int MonitoringProgressStatusPos { get; set; }
+        public string MonitoringProgressStatusName { get; set; }
+        public int AuditObjectId { get; set; }
+        public string AuditObjectName { get; set; }
+        public int ResponsibleEmployeeId { get; set; }
+        public string ResponsibleEmployeeFirstName { get; set; }
+        public string ResponsibleEmployeeLastName { get; set; }
+        public string ResponsibleEmployeePatronymic { get; set; }
+        public string ResponsibleEmployeeEmail { get; set; }
+        public int AuditSuperviserId { get; set; }
+        public string AuditSuperviserFirstName { get; set; }
+        public string AuditSuperviserLastName { get; set; }
+        public string AuditSuperviserPatronymic { get; set; }
+        public string AuditSuperviserEmail { get; set; }
     }
 }

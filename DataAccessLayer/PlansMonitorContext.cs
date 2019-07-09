@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataAccessLayer
 {
-    public partial class PlansMonitorContext : DbContext 
+    public partial class PlansMonitorContext : DbContext
     {
         public PlansMonitorContext()
         {
@@ -122,6 +122,21 @@ namespace DataAccessLayer
             modelBuilder.Entity<TblAuditLog>(entity =>
             {
                 entity.ToTable("tblAuditLog");
+
+                entity.HasIndex(e => e.Action)
+                    .HasName("tblauditlog_action_idx");
+
+                entity.HasIndex(e => e.Screen)
+                    .HasName("tblauditlog_screen_idx");
+
+                entity.HasIndex(e => e.Time)
+                    .HasName("tblauditlog_time_idx");
+
+                entity.HasIndex(e => e.User)
+                    .HasName("tblauditlog_user_idx");
+
+                entity.HasIndex(e => new { e.User, e.Time })
+                    .HasName("tblauditlog_usertime_idx");
 
                 entity.Property(e => e.Id).UseNpgsqlIdentityByDefaultColumn();
 
@@ -285,6 +300,24 @@ namespace DataAccessLayer
             {
                 entity.ToTable("tblFileStorage");
 
+                entity.HasIndex(e => e.Audit)
+                    .HasName("tblfilestorage_audit_idx");
+
+                entity.HasIndex(e => new { e.Audit, e.Extention })
+                    .HasName("tblfilestorage_aextention_idx");
+
+                entity.HasIndex(e => new { e.Audit, e.LoadingTime })
+                    .HasName("tblfilestorage_altime_idx");
+
+                entity.HasIndex(e => new { e.Audit, e.Name })
+                    .HasName("tblfilestorage_aname_idx");
+
+                entity.HasIndex(e => new { e.Audit, e.User })
+                    .HasName("tblfilestorage_auser_idx");
+
+                entity.HasIndex(e => new { e.Audit, e.Name, e.Extention })
+                    .HasName("tblfilestorage_anamext_idx");
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Extention)
@@ -302,6 +335,12 @@ namespace DataAccessLayer
                     .HasMaxLength(256);
 
                 entity.Property(e => e.PathToPreview).HasMaxLength(256);
+
+                entity.HasOne(d => d.AuditNavigation)
+                    .WithMany(p => p.TblFileStorage)
+                    .HasForeignKey(d => d.Audit)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_fileStorage_audit");
             });
 
             modelBuilder.Entity<TblRemark>(entity =>
@@ -344,6 +383,10 @@ namespace DataAccessLayer
             modelBuilder.Entity<TblUser>(entity =>
             {
                 entity.ToTable("tblUser");
+
+                entity.HasIndex(e => new { e.FirstName, e.LastName, e.Patronymic })
+                    .HasName("tbluser_firstname_idx")
+                    .IsUnique();
 
                 entity.Property(e => e.Id).UseNpgsqlIdentityByDefaultColumn();
 
