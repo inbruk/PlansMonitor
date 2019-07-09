@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{B098838E-73D1-4161-9AB8-FA3D71D0E059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{92071B64-B784-4DA2-A725-B8BDBC1D396E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{92071B64-B784-4DA2-A725-B8BDBC1D396E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{1FA60C79-3C74-43B6-834B-A857B9C45796}"
+	ProjectSection(SolutionItems) = preProject
+		DataLayer\DbBackup26.sql = DataLayer\DbBackup26.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
