@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{1FA60C79-3C74-43B6-834B-A857B9C45796}"
 	ProjectSection(SolutionItems) = preProject
-		DataLayer\DbBackup26.sql = DataLayer\DbBackup26.sql
+		DataLayer\DbBackup.sql = DataLayer\DbBackup.sql
 	EndProjectSection
 EndProject
 Global
