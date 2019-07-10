@@ -183,9 +183,9 @@ namespace DataAccessLayer
 
                 entity.Property(e => e.ConclusionCorrectiveActionEffectEvaluation).HasMaxLength(2048);
 
-                entity.Property(e => e.CorrectiveAction)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnName("Corrective Action")
+                    .HasColumnName("Name")
                     .HasMaxLength(128);
 
                 entity.Property(e => e.CorrectiveActionStateComment).HasMaxLength(2048);
@@ -279,7 +279,8 @@ namespace DataAccessLayer
                     .WithMany(p => p.TblDictionaryValue)
                     .HasForeignKey(d => d.Dictionary)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_dicvalue_dic");
+                    .HasConstraintName("pk_id")
+                    .HasConstraintName("uk_Dictionary_Position");
             });
 
             modelBuilder.Entity<TblEmailTemplate>(entity =>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLayer
+namespace BusinessLogicLayer.DataTransferObjects
 {
-    public class VwCorrectiveAction
+    public class CorrectiveActionFull
     {
         public int Id { get; set; }
         public int Audit { get; set; }

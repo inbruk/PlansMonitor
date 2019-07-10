@@ -7,7 +7,7 @@ namespace DataAccessLayer
     {
         public int Id { get; set; }
         public int Audit { get; set; }
-        public string CorrectiveAction { get; set; }
+        public string Name { get; set; }
         public string ExecutiveOfficerFirstName { get; set; }
         public string ExecutiveOfficerLastName { get; set; }
         public string ExecutiveOfficerPatronymic { get; set; }
