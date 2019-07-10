@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Patterns\Patterns.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Новая папка\" />
+  </ItemGroup>
+
 </Project>
