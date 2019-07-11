@@ -27,6 +27,8 @@ namespace BusinessLogicLayer.Auxiliary
 
         public void CreateN(List<DTO> newDTOList)
         {
+            CheckPerformedRowsCountAndThrowException(newDTOList.Count());
+
             try
             {
                 foreach (DTO currItem in newDTOList)
@@ -42,6 +44,8 @@ namespace BusinessLogicLayer.Auxiliary
 
         public void CreateNFastWithoutIdsAquering(List<DTO> newDTOList)
         {
+            CheckPerformedRowsCountAndThrowException(newDTOList.Count());
+
             try
             {
                 List<TBL> tblList = mapper.Map<List<DTO>, List<TBL>>(newDTOList);
@@ -85,6 +89,8 @@ namespace BusinessLogicLayer.Auxiliary
 
         public List<DTO> ReadN(List<TID> idList)
         {
+            CheckPerformedRowsCountAndThrowException(idList.Count());
+
             Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
             List<DTO> result = ReadN(predicate);
             return result;
@@ -93,6 +99,8 @@ namespace BusinessLogicLayer.Auxiliary
         // подразумевается что id-ы при update не изменяются !!!
         public void UpdateN(List<DTO> dtoList)
         {
+            CheckPerformedRowsCountAndThrowException(dtoList.Count());
+
             List<TID> idList = GetIdListFromDTOList(dtoList);
             Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
             UpdateN(dtoList, predicate);
@@ -100,6 +108,8 @@ namespace BusinessLogicLayer.Auxiliary
 
         public void DeleteN(List<TID> idList)
         {
+            CheckPerformedRowsCountAndThrowException(idList.Count());
+
             Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
             DeleteN(predicate);
         }

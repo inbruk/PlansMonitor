@@ -26,7 +26,11 @@ namespace BusinessLogicLayer.Auxiliary
         }
 
         public List<DTO> ReadAll()
-        {
+        {   
+            // пока предполагаем, что это не вызовет ошибок, надо тестить
+            //int allItemsCount = GetAllItemsCount();
+            //CheckPerformedRowsCountAndThrowException(allItemsCount);
+
             List<TBL> listOfProxy = CurrDBCtx.Set<TBL>().ToList();
             List<DTO> result = mapper.Map< List<TBL>, List<DTO> >(listOfProxy);
             return result;

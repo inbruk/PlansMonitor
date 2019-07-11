@@ -44,7 +44,25 @@ namespace BusinessLogicLayer.Auxiliary
 
         protected TBL _lastCreatedItem = null;
 
-// все что дальше должно переопределяться в потомках ----------------------------------------------------------------------------------------
+        // это относится к обработке ошибок 
+
+        public const int MaximumAcceptablePerformedRowsCount = 100;
+
+        public int GetAllItemsCount()
+        {
+            int count = CurrDBCtx.Set<TBL>().Count();
+            return count;
+        }
+
+        protected void CheckPerformedRowsCountAndThrowException(int rowsCount)
+        {
+            if (rowsCount > MaximumAcceptablePerformedRowsCount)
+            {
+                throw new Exception("Превышено количество строк, обрабатываемых за 1 запрос. См. MaximumAcceptablePerformedRowsCount");
+            }
+        }
+
+        // все что дальше должно переопределяться в потомках ----------------------------------------------------------------------------------------
 
         // получение значения автоинкрементного поля Id при создании одной записи 
         protected abstract TID GetLastCreatedId();

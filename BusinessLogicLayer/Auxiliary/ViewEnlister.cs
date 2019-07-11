@@ -33,6 +33,29 @@ namespace BusinessLogicLayer.Auxiliary
             mapper = config.CreateMapper();
         }
 
+        protected ActualPlansMonitorContext CurrDBCtx
+        {
+            get
+            {
+                return PCAMonitorDBContextHolder.Get();
+            }
+        }
+
+        public const int MaximumAcceptablePerformedRowsCount = 100;
+        public int GetAllItemsCount()
+        {
+            int count = CurrDBCtx.Set<VW>().Count();
+            return count;
+        }
+
+        protected void CheckPerformedRowsCountAndThrowException(int rowsCount)
+        {
+            if (rowsCount > MaximumAcceptablePerformedRowsCount)
+            {
+                throw new Exception("Превышено количество строк, обрабатываемых за 1 запрос. См. MaximumAcceptablePerformedRowsCount");
+            }
+        }
+
         protected List<DVO> EnlistView 
             (
                 Expression<Func<VW, bool>> wherePredicate,
@@ -41,20 +64,31 @@ namespace BusinessLogicLayer.Auxiliary
                 int? rowsCount
             )
         {
-            var currDBCtx = PCAMonitorDBContextHolder.Get();
-            var query = currDBCtx.Set<VW>().Select(x => x);
+            // пока предполагаем, что это не вызовет ошибок, надо тестить
+            // на случай вытаскивания всех записей из представления
+            //if (wherePredicate == null && orderDescriptions == null && firstRowNumber == null && rowsCount == null)
+            //{
+            //    int allItemsCount = GetAllItemsCount();
+            //    CheckPerformedRowsCountAndThrowException(allItemsCount);
+            //}
+
+            var query = CurrDBCtx.Set<VW>().Select(x => x);
 
             if (wherePredicate != null)
                 query = query.Where(wherePredicate);
 
             if (orderDescriptions != null)
-                throw new Exception("EnlistView с поддержкой Не реализовано !");
+                throw new Exception("EnlistView с поддержкой многих сортировок возр./убыв. пока не реализован !");
 
             if (firstRowNumber != null)
                 query = query.Skip( (int)firstRowNumber );
 
-            if (firstRowNumber != null)
-                query = query.Take((int)rowsCount);
+            if (rowsCount != null)
+            {
+                // пока предполагаем, что это не вызовет ошибок, надо тестить
+                //CheckPerformedRowsCountAndThrowException( (int)rowsCount );
+                query = query.Take( (int)rowsCount );
+            }
 
             List<VW> vwList = query.ToList();
             List<DVO> result = mapper.Map<List<VW>, List<DVO>>(vwList);

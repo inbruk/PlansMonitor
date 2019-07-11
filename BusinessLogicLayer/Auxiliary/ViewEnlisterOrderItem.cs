@@ -16,7 +16,7 @@ using DTO = BusinessLogicLayer.DataTransferObjects;
 
 namespace BusinessLogicLayer.Auxiliary
 {
-    public class ViewEnlisterOrderItem<VW>
+    internal class ViewEnlisterOrderItem<VW>
     {
         public bool Descending { set; get; }
         public Expression< Func<VW, bool> > OrderPredicate { set; get; }
