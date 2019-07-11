@@ -16,12 +16,12 @@ using System.Linq;
 
 namespace BusinessLogicLayer.Auxiliary
 {
-    internal abstract class ViewEnlister<DVO, VW, TID>         
+    internal abstract class ViewEnlisterBase<DVO, VW, TID>         
             where DVO : class
             where VW : class
     {
         protected readonly IMapper mapper = null;
-        public ViewEnlister()
+        public ViewEnlisterBase()
         {
             var config = new MapperConfiguration(
                 cfg =>
