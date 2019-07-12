@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -9,14 +10,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 using AutoMapper;
 
+using Patterns;
+
 using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 using DTO = BusinessLogicLayer.DataTransferObjects;
-using System.Linq;
+
 
 namespace BusinessLogicLayer.Auxiliary
 {
-    internal abstract class CRUD1NBase<DTO, TBL, TID> : CRUD1Base<DTO, TBL, TID>
+    internal abstract class CRUD1NBase<DTO, TBL, TID> : CRUD1Base<DTO, TBL, TID>, IRepositoryN<DTO, TID>
          where DTO : class
          where TBL : class
     {

@@ -6,6 +6,8 @@ namespace BusinessLogicLayer.DataTransferObjects
     public partial class Audit
     {
         public int Id { get; set; }
+
+        public int BusinessProcess { get; set; }
         public string Name { get; set; }
         public int? AuditObject { get; set; }
         public DateTime VerificationPeriodStart { get; set; }

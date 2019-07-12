@@ -17,5 +17,5 @@ using BusinessLogicLayer.Auxiliary;
 
 namespace BusinessLogicLayer.CRUD1NAndViewEnlister
 {
-    internal class AuditLogViewEnlister : ViewEnlisterBase<DTO.AuditLog, VwAuditLog, int> { }
+    internal class AuditLogViewEnlister : ViewEnlisterBase<DTO.AuditLogFull, VwAuditLog, int> { }
 }

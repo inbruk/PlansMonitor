@@ -7,6 +7,7 @@ namespace DataAccessLayer
     public class VwAudit
     {
         public int Id { get; set; }
+        public int BusinessProcess { get; set; }
         public string Name { get; set; }
         public DateTime VerificationPeriodStart { get; set; }
         public DateTime VerificationPeriodStop { get; set; }

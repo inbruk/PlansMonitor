@@ -17,7 +17,7 @@ using BusinessLogicLayer.Auxiliary;
 
 namespace BusinessLogicLayer.CRUD1NAndViewEnlister
 {
-    internal class EmailTemplateCrud1 : CRUD1Base<DTO.EmailTemplate, TblEmailTemplate, int>
+    internal class EmailTemplateCrud1N : CRUD1NBase<DTO.EmailTemplate, TblEmailTemplate, int>
     {
         protected override int GetLastCreatedId() { return _lastCreatedItem.Id; }
         protected override void InsertIdInDTO(DTO.EmailTemplate dtoItem, int idValue) { dtoItem.Id = idValue; }

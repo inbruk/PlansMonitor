@@ -17,5 +17,5 @@ using BusinessLogicLayer.Auxiliary;
 
 namespace BusinessLogicLayer.CRUD1NAndViewEnlister
 {
-    internal class CorrectiveActionViewEnlister : ViewEnlisterBase<DTO.CorrectiveAction, VwCorrectiveAction, int> { }
+    internal class CorrectiveActionViewEnlister : ViewEnlisterBase<DTO.CorrectiveActionFull, VwCorrectiveAction, int> { }
 }

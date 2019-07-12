@@ -17,7 +17,7 @@ using BusinessLogicLayer.Auxiliary;
 
 namespace BusinessLogicLayer.CRUD1NAndViewEnlister
 {
-    internal class AuditObjectCrud1N : CRUD1NBase<DTO.AuditObject, TblAuditObject, int>
+    internal class AuditObjectCrud1 : CRUD1Base<DTO.AuditObject, TblAuditObject, int>
     {
         protected override int GetLastCreatedId() { return _lastCreatedItem.Id; }
         protected override void InsertIdInDTO(DTO.AuditObject dtoItem, int idValue) { dtoItem.Id = idValue; }

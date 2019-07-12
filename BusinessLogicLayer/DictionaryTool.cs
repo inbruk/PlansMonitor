@@ -16,12 +16,12 @@ namespace BusinessLogicLayer
 {
     // Лениво грузит все данные при любом первом запросе. И хранит их на случай повторного использования.
     //  Подразумевается, что словари неизменны.
-    public static class DictionaryTool
+    public class DictionaryTool : IDictionaryTool
     {
-        private static IMapper _mapper;
-        private static List<DTO.Dictionary> _dicData;
+        private IMapper _mapper;
+        private List<DTO.Dictionary> _dicData;
 
-        static DictionaryTool()
+        public DictionaryTool()
         {
             var config = new MapperConfiguration(
                 cfg =>
@@ -34,7 +34,7 @@ namespace BusinessLogicLayer
             _dicData = null;
         }
 
-        private static void CheckAndLoadData()
+        private void CheckAndLoadData()
         {
             if (_dicData == null)
             {
@@ -44,13 +44,13 @@ namespace BusinessLogicLayer
             }
         }
 
-        public static List<DTO.Dictionary> ReadAll()
+        public List<DTO.Dictionary> ReadAll()
         {
             CheckAndLoadData();
             return _dicData;
         }
 
-        public static DTO.Dictionary Read(int Id)
+        public DTO.Dictionary Read(int Id)
         {
             CheckAndLoadData();
             DTO.Dictionary result = _dicData.SingleOrDefault(x => x.Id == Id);

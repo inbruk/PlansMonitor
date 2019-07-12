@@ -42,11 +42,6 @@ namespace BusinessLogicLayer.Auxiliary
         }
 
         public const int MaximumAcceptablePerformedRowsCount = 100;
-        public int GetAllItemsCount()
-        {
-            int count = CurrDBCtx.Set<VW>().Count();
-            return count;
-        }
 
         protected void CheckPerformedRowsCountAndThrowException(int rowsCount)
         {
@@ -56,22 +51,14 @@ namespace BusinessLogicLayer.Auxiliary
             }
         }
 
-        protected List<DVO> EnlistView 
+        private IQueryable<VW> GetQuery
             (
                 Expression<Func<VW, bool>> wherePredicate,
-                List<ViewEnlisterOrderItem<VW>> orderDescriptions, 
+                List<ViewEnlisterOrderItem<VW>> orderDescriptions,
                 int? firstRowNumber,
                 int? rowsCount
             )
         {
-            // пока предполагаем, что это не вызовет ошибок, надо тестить
-            // на случай вытаскивания всех записей из представления
-            //if (wherePredicate == null && orderDescriptions == null && firstRowNumber == null && rowsCount == null)
-            //{
-            //    int allItemsCount = GetAllItemsCount();
-            //    CheckPerformedRowsCountAndThrowException(allItemsCount);
-            //}
-
             var query = CurrDBCtx.Set<VW>().Select(x => x);
 
             if (wherePredicate != null)
@@ -81,16 +68,49 @@ namespace BusinessLogicLayer.Auxiliary
                 throw new Exception("EnlistView с поддержкой многих сортировок возр./убыв. пока не реализован !");
 
             if (firstRowNumber != null)
-                query = query.Skip( (int)firstRowNumber );
+                query = query.Skip((int)firstRowNumber);
 
             if (rowsCount != null)
-            {
-                // пока предполагаем, что это не вызовет ошибок, надо тестить
-                //CheckPerformedRowsCountAndThrowException( (int)rowsCount );
-                query = query.Take( (int)rowsCount );
-            }
+                query = query.Take((int)rowsCount);
+
+            return query;
+        }
+
+        public int GetItemsCount( Expression<Func<VW, bool>> wherePredicate )
+        {
+            var query = GetQuery
+                (
+                    wherePredicate,
+                    null,
+                    null,
+                    null
+                );
+
+            int count = query.Count();
+            return count;
+        }
+
+        public List<DVO> Enlist
+            (
+                Expression<Func<VW, bool>> wherePredicate,
+                List<ViewEnlisterOrderItem<VW>> orderDescriptions, 
+                int? firstRowNumber,
+                int? rowsCount
+            )
+        {
+            var query = GetQuery
+                (
+                    wherePredicate,
+                    orderDescriptions,
+                    firstRowNumber,
+                    rowsCount
+                );
 
             List<VW> vwList = query.ToList();
+
+            // пока предполагаем, что это не вызовет ошибок, надо тестить
+            // CheckPerformedRowsCountAndThrowException( vwList.Count() );            
+
             List<DVO> result = mapper.Map<List<VW>, List<DVO>>(vwList);
             return result;
         }

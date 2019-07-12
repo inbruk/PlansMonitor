@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -12,11 +13,12 @@ using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 using DTO = BusinessLogicLayer.DataTransferObjects;
-using System.Linq;
+
+using Patterns;
 
 namespace BusinessLogicLayer.Auxiliary
 {
-    internal abstract class CRUD1Base<DTO, TBL, TID> : UseCtxGenericWithMapping<DTO, TBL, TID>
+    internal abstract class CRUD1Base<DTO, TBL, TID> : UseCtxGenericWithMapping<DTO, TBL, TID>, IRepository1<DTO, TID>
          where DTO : class
          where TBL : class
     {

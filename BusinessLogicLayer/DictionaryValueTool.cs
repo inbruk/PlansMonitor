@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System.Collections.Generic;
 
 using AutoMapper;
 
@@ -16,13 +11,13 @@ namespace BusinessLogicLayer
 {
     // Лениво грузит по одному словарю (если этот словарь не загружен) при любом первом запросе данных из этого словаря. 
     // И хранит все загруженные словари на случай повторного использования. Подразумевается, что словари неизменны.
-    public static class DictionaryValueTool
+    public class DictionaryValueTool : IDictionaryValueTool
     {
-        private static IMapper _mapper;
-        private static List<int> _loadedDicIds;
-        private static List<DTO.DictionaryValue> _perItemData;
+        private IMapper _mapper;
+        private List<int> _loadedDicIds;
+        private List<DTO.DictionaryValue> _perItemData;
 
-        static DictionaryValueTool()
+        public DictionaryValueTool()
         {
             var config = new MapperConfiguration(
                 cfg =>
@@ -36,7 +31,7 @@ namespace BusinessLogicLayer
             _perItemData = new List<DTO.DictionaryValue>();
         }
 
-        private static void CheckAndLoadOneDictionaryValues(int dicId)
+        private void CheckAndLoadOneDictionaryValues(int dicId)
         {
             if ( _loadedDicIds.Contains(dicId)==false )
             {
@@ -50,20 +45,20 @@ namespace BusinessLogicLayer
                 }
             }
         }
-        public static List<DTO.DictionaryValue> ReadSeveralByDicId(int dicId)
+        public List<DTO.DictionaryValue> ReadSeveralByDicId(int dicId)
         {
             CheckAndLoadOneDictionaryValues(dicId);
             List<DTO.DictionaryValue> result = _perItemData.Where( x => x.Dictionary==dicId ).OrderBy( x => x.Position ).ToList();
             return result;
         }
 
-        public static DTO.DictionaryValue ReadByDicIdAndPos(int dicId, int pos)
+        public DTO.DictionaryValue ReadByDicIdAndPos(int dicId, int pos)
         {
             var result = _perItemData.SingleOrDefault(x => x.Dictionary == dicId && x.Position == pos);
             return result;
         }
 
-        public static DTO.DictionaryValue ReadByItemId(int itemId)
+        public DTO.DictionaryValue ReadByItemId(int itemId)
         {
             var result = _perItemData.SingleOrDefault(x => x.Id == itemId);
             return result;
