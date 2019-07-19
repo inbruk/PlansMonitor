@@ -7,9 +7,10 @@ using Patterns;
 
 namespace BusinessLogicLayer.Infrastructure
 {
-    internal abstract class CRUD1Base<DTO, TBL, TID> : UseCtxGenericWithMapping<DTO, TBL, TID>, IRepository1<DTO, TID>
-         where DTO : class
-         where TBL : class
+    internal abstract class CRUD1Base<DTO, TBL> 
+        : UseCtxGenericWithMapping<DTO, TBL>, IRepository1<DTO, int>
+             where DTO : class, IObjectWithIdProperty<int>
+             where TBL : class, IObjectWithIdProperty<int>
     {
         public CRUD1Base()
             : base()
@@ -41,8 +42,8 @@ namespace BusinessLogicLayer.Infrastructure
                 throw ex; // ловим для поиска ошибки при отладке, но прокидываем, чтобы не скрыть
             }
 
-            TID lastCreatedId = GetLastCreatedId();
-            InsertIdInDTO(newDTO, lastCreatedId);
+            int lastCreatedId = _lastCreatedItem.Id;
+            newDTO.Id = lastCreatedId;
         }
 
         protected DTO Read1(Expression<Func<TBL, bool>> predicate)
@@ -67,9 +68,9 @@ namespace BusinessLogicLayer.Infrastructure
             CurrDBCtx.SaveChanges();
         }
 
-        public DTO Read1(TID id)
+        public DTO Read1(int id)
         {
-            Expression<Func<TBL, bool>> predicat = GetPredicate_WhereXEqId(id);
+            Expression<Func<TBL, bool>> predicat = ( x => x.Id==id );
             DTO result = Read1(predicat);
             return result;
         }
@@ -77,15 +78,12 @@ namespace BusinessLogicLayer.Infrastructure
         // подразумевается что id-ы при update не изменяются !!!
         public void Update1(DTO dtoItem)
         {
-            TID id = GetIdFromDTO(dtoItem);
-            Expression<Func<TBL, bool>> predicat = GetPredicate_WhereXEqId(id);
-            Update1(dtoItem, predicat);
+            Update1(dtoItem, x => x.Id == dtoItem.Id);
         }
 
-        public void Delete1(TID id)
+        public void Delete1(int id)
         {
-            Expression<Func<TBL, bool>> predicat = GetPredicate_WhereXEqId(id);
-            DTO result = Read1(predicat);
+             DTO result = Read1( x => x.Id==id );
         }
     }
 }

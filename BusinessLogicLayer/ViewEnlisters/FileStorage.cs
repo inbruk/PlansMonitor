@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class FileStorage : ViewEnlisterBase<DTOVw.FileStorage, VwFileStorage, int>
+    internal class FileStorage : ViewEnlisterBase<DTOVw.FileStorage, VwFileStorage>
     {
 
         protected override IQueryable<VwFileStorage> QueryOneSort(IQueryable<VwFileStorage> query, ViewEnlisterOrderItem4DTO orderDesc)

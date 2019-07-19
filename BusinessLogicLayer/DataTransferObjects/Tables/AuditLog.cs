@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Tables
 {
-    public partial class AuditLog
+    public partial class AuditLog : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }

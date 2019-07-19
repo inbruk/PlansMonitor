@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class CorrectiveAction : ViewEnlisterBase<DTOVw.CorrectiveAction, VwCorrectiveAction, int>
+    internal class CorrectiveAction : ViewEnlisterBase<DTOVw.CorrectiveAction, VwCorrectiveAction>
     {
         protected override IQueryable<VwCorrectiveAction> QueryOneSort(IQueryable<VwCorrectiveAction> query, ViewEnlisterOrderItem4DTO orderDesc)
         {

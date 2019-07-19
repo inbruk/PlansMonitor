@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwAuditLog
+    public class VwAuditLog 
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }

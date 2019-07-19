@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class Remark : ViewEnlisterBase<DTOVw.Remark, VwRemark, int>
+    internal class Remark : ViewEnlisterBase<DTOVw.Remark, VwRemark>
     {
         protected override IQueryable<VwRemark> QueryOneSort(IQueryable<VwRemark> query, ViewEnlisterOrderItem4DTO orderDesc)
         {

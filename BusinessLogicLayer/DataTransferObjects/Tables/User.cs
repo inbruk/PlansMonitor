@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Tables
 {
-    public partial class User
+    public partial class User : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

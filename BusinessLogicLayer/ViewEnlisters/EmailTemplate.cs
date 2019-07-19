@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class EmailTemplate : ViewEnlisterBase<DTOVw.EmailTemplate, VwEmailTemplate, int>
+    internal class EmailTemplate : ViewEnlisterBase<DTOVw.EmailTemplate, VwEmailTemplate>
     {
         protected override IQueryable<VwEmailTemplate> QueryOneSort(IQueryable<VwEmailTemplate> query, ViewEnlisterOrderItem4DTO orderDesc)
         {

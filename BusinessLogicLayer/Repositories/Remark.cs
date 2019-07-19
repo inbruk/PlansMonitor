@@ -17,13 +17,7 @@ using BusinessLogicLayer.Infrastructure;
 
 namespace BusinessLogicLayer.Repositories
 {
-    internal class Remark : CRUD1NBase<DTOTbl.Remark, TblRemark, int>
+    internal class Remark : CRUD1NBase<DTOTbl.Remark, TblRemark>
     {
-        protected override int GetLastCreatedId() { return _lastCreatedItem.Id; }
-        protected override void InsertIdInDTO(DTOTbl.Remark dtoItem, int idValue) { dtoItem.Id = idValue; }
-        protected override int GetIdFromDTO(DTOTbl.Remark dtoItem) { return dtoItem.Id; }
-        protected override List<int> GetIdListFromDTOList(List<DTOTbl.Remark> dtoList) { return dtoList.Select(x => x.Id).ToList(); }
-        protected override Expression<Func<TblRemark, bool>> GetPredicate_WhereXEqId(int idValue) { return x => x.Id == idValue; }
-        protected override Expression<Func<TblRemark, bool>> GetPredicate_WhereXInIdList(List<int> idList) { return x => idList.Contains(x.Id); }
     }
 }

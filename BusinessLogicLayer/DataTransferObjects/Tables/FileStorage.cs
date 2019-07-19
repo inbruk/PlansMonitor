@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Tables
 {
-    public partial class FileStorage
+    public partial class FileStorage : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

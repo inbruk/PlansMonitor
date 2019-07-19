@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwFileStorage
+    public class VwFileStorage 
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -17,14 +17,8 @@ using BusinessLogicLayer.Infrastructure;
 
 namespace BusinessLogicLayer.Repositories
 {
-    internal class Audit : CRUD1Base<DTOTbl.Audit, TblAudit, int>
+    internal class Audit : CRUD1Base<DTOTbl.Audit,TblAudit>
     {
-        protected override int GetLastCreatedId() { return _lastCreatedItem.Id; }
-        protected override void InsertIdInDTO(DTOTbl.Audit dtoItem, int idValue) { dtoItem.Id = idValue; }
-        protected override int GetIdFromDTO(DTOTbl.Audit dtoItem) { return dtoItem.Id; }
-        protected override List<int> GetIdListFromDTOList(List<DTOTbl.Audit> dtoList) { return dtoList.Select(x => x.Id).ToList(); }
-        protected override Expression<Func<TblAudit, bool>> GetPredicate_WhereXEqId(int idValue) { return x => x.Id == idValue; }
-        protected override Expression<Func<TblAudit, bool>> GetPredicate_WhereXInIdList(List<int> idList) { return x => idList.Contains(x.Id); }
     }
 
 }

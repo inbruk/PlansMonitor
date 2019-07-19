@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Tables
 {
-    public partial class Remark
+    public partial class Remark : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int? ReportSubsectionNumber { get; set; }

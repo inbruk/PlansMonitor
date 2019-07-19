@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class AuditLog : ViewEnlisterBase<DTOVw.AuditLog, VwAuditLog, int>
+    internal class AuditLog : ViewEnlisterBase<DTOVw.AuditLog, VwAuditLog>
     {
         protected override IQueryable<VwAuditLog> QueryOneSort(IQueryable<VwAuditLog> query, ViewEnlisterOrderItem4DTO orderDesc)
         {

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwCorrectiveAction
+    public class VwCorrectiveAction 
     {
         public int Id { get; set; }
         public int Audit { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq.Expressions;
@@ -8,13 +9,13 @@ using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 
-using System.Linq;
+using Patterns;
 
 namespace BusinessLogicLayer.Infrastructure
 {
-    internal abstract class UseCtxGenericWithMapping<DTO, TBL, TID>
-         where DTO : class
-         where TBL : class
+    internal abstract class UseCtxGenericWithMapping<DTO, TBL>
+         where DTO : class, IObjectWithIdProperty<int>
+         where TBL : class, IObjectWithIdProperty<int>
     {
         protected readonly IMapper mapper = null;
         public UseCtxGenericWithMapping()
@@ -57,25 +58,5 @@ namespace BusinessLogicLayer.Infrastructure
                 throw new Exception("Превышено количество строк, обрабатываемых за 1 запрос. См. MaximumAcceptablePerformedRowsCount");
             }
         }
-
-        // все что дальше должно переопределяться в потомках ----------------------------------------------------------------------------------------
-
-        // получение значения автоинкрементного поля Id при создании одной записи 
-        protected abstract TID GetLastCreatedId();
-
-        // запись значения Id в DTO объект
-        protected abstract void InsertIdInDTO(DTO dtoItem, TID idValue);
-
-        // получить значения Id из DTO объекта
-        protected abstract TID GetIdFromDTO(DTO dtoItem);
-
-        // получить список значений Id из списка DTO объектов
-        protected abstract List<TID> GetIdListFromDTOList(List<DTO> dtoList);
-
-        // получение предиката для выражения .Where( x=> x.Id==idValue )
-        protected abstract Expression<Func<TBL, bool>> GetPredicate_WhereXEqId(TID idValue);
-
-        // получение предиката для выражения .Where( x=> x.Id==idValue() )
-        protected abstract Expression<Func<TBL, bool>> GetPredicate_WhereXInIdList(List<TID> idList);
     }
 }

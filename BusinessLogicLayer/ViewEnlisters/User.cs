@@ -18,7 +18,7 @@ using BusinessLogicLayer.DataTransferObjects.ViewColumns;
 
 namespace BusinessLogicLayer.ViewEnlisters
 {
-    internal class User : ViewEnlisterBase<DTOVw.User, VwUser, int>
+    internal class User : ViewEnlisterBase<DTOVw.User, VwUser>
     {
         protected override IQueryable<VwUser> QueryOneSort(IQueryable<VwUser> query, ViewEnlisterOrderItem4DTO orderDesc)
         {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Tables
 {
-    public partial class CorrectiveAction
+    public partial class CorrectiveAction : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int Audit { get; set; }

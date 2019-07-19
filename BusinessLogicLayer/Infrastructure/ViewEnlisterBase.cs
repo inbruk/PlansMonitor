@@ -8,11 +8,13 @@ using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 
+using Patterns;
+
 namespace BusinessLogicLayer.Infrastructure
 {
-    internal abstract class ViewEnlisterBase<DVO, VW, TID>         
-            where DVO : class
-            where VW : class
+    internal abstract class ViewEnlisterBase<DVO, VW>
+         where DVO : class
+         where VW : class
     {
         protected readonly IMapper mapper = null;
         public ViewEnlisterBase()

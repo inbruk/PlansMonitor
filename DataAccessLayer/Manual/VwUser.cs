@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwUser
+    public class VwUser 
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

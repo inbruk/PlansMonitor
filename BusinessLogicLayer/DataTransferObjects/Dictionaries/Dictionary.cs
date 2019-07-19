@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Patterns;
+
 namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
 {
     public partial class Dictionary

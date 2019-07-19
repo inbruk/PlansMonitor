@@ -16,6 +16,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "Busin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns", "Patterns\Patterns.csproj", "{8EB8A765-95C6-424E-A444-2461A28DD692}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2D822968-DE0A-42D3-8F08-2013B9B19DCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDLLAndBLL4SimpleWorking", "TestDLLAndBLL4SimpleWorking\TestDLLAndBLL4SimpleWorking.csproj", "{0157E0A1-0E1C-4819-9358-037740503C40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,9 +42,16 @@ Global
 		{8EB8A765-95C6-424E-A444-2461A28DD692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EB8A765-95C6-424E-A444-2461A28DD692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EB8A765-95C6-424E-A444-2461A28DD692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0157E0A1-0E1C-4819-9358-037740503C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0157E0A1-0E1C-4819-9358-037740503C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0157E0A1-0E1C-4819-9358-037740503C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0157E0A1-0E1C-4819-9358-037740503C40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0157E0A1-0E1C-4819-9358-037740503C40} = {2D822968-DE0A-42D3-8F08-2013B9B19DCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52EC0964-A3C5-4C27-BAC8-FC291BB83090}

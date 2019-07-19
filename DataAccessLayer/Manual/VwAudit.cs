@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwAudit
+    public class VwAudit 
     {
         public int Id { get; set; }
         public int BusinessProcess { get; set; }

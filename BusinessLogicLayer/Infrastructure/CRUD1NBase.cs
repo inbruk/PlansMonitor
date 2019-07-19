@@ -7,9 +7,10 @@ using Patterns;
 
 namespace BusinessLogicLayer.Infrastructure
 {
-    internal abstract class CRUD1NBase<DTO, TBL, TID> : CRUD1Base<DTO, TBL, TID>, IRepositoryN<DTO, TID>
-         where DTO : class
-         where TBL : class
+    internal abstract class CRUD1NBase<DTO, TBL> 
+        : CRUD1Base<DTO, TBL>, IRepositoryN <DTO, int>
+             where DTO : class, IObjectWithIdProperty<int>
+             where TBL : class, IObjectWithIdProperty<int>
     {
         public CRUD1NBase()
             : base()
@@ -78,12 +79,10 @@ namespace BusinessLogicLayer.Infrastructure
             CurrDBCtx.SaveChanges();
         }
 
-        public List<DTO> ReadN(List<TID> idList)
+        public List<DTO> ReadN(List<int> idList)
         {
             CheckPerformedRowsCountAndThrowException(idList.Count());
-
-            Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
-            List<DTO> result = ReadN(predicate);
+            List<DTO> result = ReadN( x => idList.Contains(x.Id) );
             return result;
         }
 
@@ -91,18 +90,15 @@ namespace BusinessLogicLayer.Infrastructure
         public void UpdateN(List<DTO> dtoList)
         {
             CheckPerformedRowsCountAndThrowException(dtoList.Count());
-
-            List<TID> idList = GetIdListFromDTOList(dtoList);
-            Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
-            UpdateN(dtoList, predicate);
+            List<int> idList = dtoList.Select(x => x.Id).ToList();
+            UpdateN(dtoList, x => idList.Contains(x.Id));
         }
 
-        public void DeleteN(List<TID> idList)
+        public void DeleteN(List<int> idList)
         {
             CheckPerformedRowsCountAndThrowException(idList.Count());
 
-            Expression<Func<TBL, bool>> predicate = GetPredicate_WhereXInIdList(idList);
-            DeleteN(predicate);
+            DeleteN( x => idList.Contains(x.Id) );
         }
     }
 }

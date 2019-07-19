@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Patterns;
+
 namespace DataAccessLayer
 {
-    public class VwRemark
+    public class VwRemark 
     {
         public int Id { get; set; }
         public int ReportSubsectionNumber { get; set; }
