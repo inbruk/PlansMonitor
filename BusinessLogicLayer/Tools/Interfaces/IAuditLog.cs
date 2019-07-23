@@ -24,7 +24,7 @@ namespace BusinessLogicLayer
         int GetViewItemsCount(int? userId, DateTime? startTime, DateTime? endTime);
         List<DTOVw.AuditLog> EnlistView(
             int? userId, DateTime? startTime, DateTime? endTime,
-            List<ViewEnlisterOrderItem4DTO> orderDescs,
+            List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs,
             int? firstRowNumber, int? rowsCount
         );
     }

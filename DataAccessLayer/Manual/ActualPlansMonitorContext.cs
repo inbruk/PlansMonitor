@@ -18,8 +18,8 @@ namespace DataAccessLayer
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
-
-                var connectionString = config.GetConnectionString("PlansMonitorDBOnTheLocalhost");
+                              
+                var connectionString = config.GetConnectionString("DefaultConnection");
                 optionsBuilder.UseNpgsql(connectionString);
             }
         }
@@ -37,13 +37,13 @@ namespace DataAccessLayer
             base.OnModelCreating(modelBuilder);
 
             // создаем поддержку представлениям (их прокси классы лежат в каталоге Manual)
-            modelBuilder.Query<VwAudit>().ToView("VwAudit");
-            modelBuilder.Query<VwAuditLog>().ToView("VwAuditLog");
-            modelBuilder.Query<VwCorrectiveAction>().ToView("VwCorrectiveAction");
-            modelBuilder.Query<VwEmailTemplate>().ToView("VwEmailTemplate");
-            modelBuilder.Query<VwFileStorage>().ToView("VwFileStorage");
-            modelBuilder.Query<VwRemark>().ToView("VwRemark");
-            modelBuilder.Query<VwUser>().ToView("VwUser");
+            modelBuilder.Query<VwAudit>().ToView("vwAudit");
+            modelBuilder.Query<VwAuditLog>().ToView("vwAuditLog");
+            modelBuilder.Query<VwCorrectiveAction>().ToView("vwCorrectiveAction");
+            modelBuilder.Query<VwEmailTemplate>().ToView("vwEmailTemplate");
+            modelBuilder.Query<VwFileStorage>().ToView("vwFileStorage");
+            modelBuilder.Query<VwRemark>().ToView("vwRemark");
+            modelBuilder.Query<VwUser>().ToView("vwUser");
         }
     }
 }

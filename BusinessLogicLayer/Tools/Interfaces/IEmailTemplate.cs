@@ -21,6 +21,6 @@ namespace BusinessLogicLayer
         void DeleteN(List<int> idList);
 
         int GetViewItemsCount();
-        List<DTOVw.EmailTemplate> EnlistView(List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount);
+        List<DTOVw.EmailTemplate> EnlistView(List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount);
     }
 }

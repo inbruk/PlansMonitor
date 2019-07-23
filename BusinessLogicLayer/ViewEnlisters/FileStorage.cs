@@ -20,71 +20,23 @@ namespace BusinessLogicLayer.ViewEnlisters
 {
     internal class FileStorage : ViewEnlisterBase<DTOVw.FileStorage, VwFileStorage>
     {
-
-        protected override IQueryable<VwFileStorage> QueryOneSort(IQueryable<VwFileStorage> query, ViewEnlisterOrderItem4DTO orderDesc)
+        protected override IQueryable<VwFileStorage> QueryOneSort(IQueryable<VwFileStorage> query, bool isFirstSort, DTOVw.ViewEnlisterOrderItem4DTO orderDesc)
         {
             switch (orderDesc.ColumnId)
             {
-                case (int)EnFileStorage.Id:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Id);
-                    else query = query.OrderByDescending(x => x.Id);
-                    break;
-
-                case (int)EnFileStorage.Name:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Name);
-                    else query = query.OrderByDescending(x => x.Name);
-                    break;
-
-                case (int)EnFileStorage.Extention:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Extention);
-                    else query = query.OrderByDescending(x => x.Extention);
-                    break;
-
-                case (int)EnFileStorage.LoadingTime:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.LoadingTime);
-                    else query = query.OrderByDescending(x => x.LoadingTime);
-                    break;
-
-                case (int)EnFileStorage.PathToPreview:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.PathToPreview);
-                    else query = query.OrderByDescending(x => x.PathToPreview);
-                    break;
-
-                case (int)EnFileStorage.PathToFile:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.PathToFile);
-                    else query = query.OrderByDescending(x => x.PathToFile);
-                    break;
-
-                case (int)EnFileStorage.Audit:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Audit);
-                    else query = query.OrderByDescending(x => x.Audit);
-                    break;
-
-                case (int)EnFileStorage.UserId:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserId);
-                    else query = query.OrderByDescending(x => x.UserId);
-                    break;
-
-                case (int)EnFileStorage.UserFirstName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserFirstName);
-                    else query = query.OrderByDescending(x => x.UserFirstName);
-                    break;
-
-                case (int)EnFileStorage.UserLastName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserLastName);
-                    else query = query.OrderByDescending(x => x.UserLastName);
-                    break;
-
-                case (int)EnFileStorage.UserPatronymic:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserPatronymic);
-                    else query = query.OrderByDescending(x => x.UserPatronymic);
-                    break;
-
-                default:
-                    throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.FileStorage.QueryOneSort()");
+                case (int)EnFileStorage.Id: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Id);
+                case (int)EnFileStorage.Name: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Name);
+                case (int)EnFileStorage.Extention: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Extention);
+                case (int)EnFileStorage.LoadingTime: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.LoadingTime);
+                case (int)EnFileStorage.PathToPreview: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.PathToPreview);
+                case (int)EnFileStorage.PathToFile: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.PathToFile);
+                case (int)EnFileStorage.Audit: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Audit);
+                case (int)EnFileStorage.UserId: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserId);
+                case (int)EnFileStorage.UserFirstName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserFirstName);
+                case (int)EnFileStorage.UserLastName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserLastName);
+                case (int)EnFileStorage.UserPatronymic: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserPatronymic);
+                default: throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.FileStorage.QueryOneSort()");
             };
-
-            return query;
         }
     }
 }

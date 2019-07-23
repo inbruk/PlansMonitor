@@ -20,41 +20,17 @@ namespace BusinessLogicLayer.ViewEnlisters
 {
     internal class EmailTemplate : ViewEnlisterBase<DTOVw.EmailTemplate, VwEmailTemplate>
     {
-        protected override IQueryable<VwEmailTemplate> QueryOneSort(IQueryable<VwEmailTemplate> query, ViewEnlisterOrderItem4DTO orderDesc)
+        protected override IQueryable<VwEmailTemplate> QueryOneSort(IQueryable<VwEmailTemplate> query, bool isFirstSort, DTOVw.ViewEnlisterOrderItem4DTO orderDesc)
         {
             switch (orderDesc.ColumnId)
             {
-                case (int)EnEmailTemplate.Id:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Id);
-                    else query = query.OrderByDescending(x => x.Id);
-                    break;
-
-                case (int)EnEmailTemplate.Template:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Template);
-                    else query = query.OrderByDescending(x => x.Template);
-                    break;
-
-                case (int)EnEmailTemplate.Description:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Description);
-                    else query = query.OrderByDescending(x => x.Description);
-                    break;
-
-                case (int)EnEmailTemplate.TypePos:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.TypePos);
-                    else query = query.OrderByDescending(x => x.TypePos);
-                    break;
-
-                case (int)EnEmailTemplate.TypeName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.TypeName);
-                    else query = query.OrderByDescending(x => x.TypeName);
-                    break;
-
-
-                default:
-                    throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.EmailTemplate.QueryOneSort()");
+                case (int)EnEmailTemplate.Id: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Id);
+                case (int)EnEmailTemplate.Template: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Template);
+                case (int)EnEmailTemplate.Description: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Description);
+                case (int)EnEmailTemplate.TypePos: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.TypePos);
+                case (int)EnEmailTemplate.TypeName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.TypeName);
+                default: throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.EmailTemplate.QueryOneSort()");
             };
-
-            return query;
         }
     }
 }

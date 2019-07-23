@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.Tools
         public List<DTOVw.Audit> EnlistView
             (
                 int? bussProc, int? auditObject, string verifPeriond,
-                List<ViewEnlisterOrderItem4DTO> orderDescs,
+                List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs,
                 int? firstRowNumber, int? rowsCount
             )
         {

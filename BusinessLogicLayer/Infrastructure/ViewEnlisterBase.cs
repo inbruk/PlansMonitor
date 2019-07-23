@@ -9,6 +9,7 @@ using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 
 using Patterns;
+using BusinessLogicLayer.DataTransferObjects.Views;
 
 namespace BusinessLogicLayer.Infrastructure
 {
@@ -47,7 +48,24 @@ namespace BusinessLogicLayer.Infrastructure
             }
         }
 
-        protected abstract IQueryable<VW> QueryOneSort(IQueryable<VW> query, ViewEnlisterOrderItem4DTO orderDesc);
+        protected IQueryable<VW> GenerateSortQuery<VW, PT>(IQueryable<VW> query, bool firstTime, bool desc, Expression<Func<VW, PT>> keySelector)
+        {
+            if (firstTime == true)
+            {
+                if (desc == false) query = query.OrderBy(keySelector);
+                else query = query.OrderByDescending(keySelector);
+            }
+            else
+            {
+                IOrderedQueryable<VW> orderedQuery = (IOrderedQueryable<VW>)query;
+                if (desc == false) query = orderedQuery.ThenBy(keySelector);
+                else query = orderedQuery.ThenByDescending(keySelector);
+            }
+
+            return query;
+        }
+
+        protected abstract IQueryable<VW> QueryOneSort(IQueryable<VW> query, bool isFirstSort, ViewEnlisterOrderItem4DTO orderDesc);
 
         private IQueryable<VW> GetQuery
             (
@@ -57,15 +75,19 @@ namespace BusinessLogicLayer.Infrastructure
                 int? rowsCount
             )
         {
-            var query = CurrDBCtx.Set<VW>().Select(x => x);
+            var query = CurrDBCtx.Query<VW>().Select(x => x);
 
             if (wherePredicate != null)
                 query = query.Where(wherePredicate);
 
             if (orderDescs != null)
             {
+                bool firstTime = true;
                 foreach (var item in orderDescs)
-                    query = QueryOneSort(query, item);
+                {
+                    query = QueryOneSort(query, firstTime, item);
+                    firstTime = false;
+                }
             }
 
             if (firstRowNumber != null)

@@ -20,64 +20,24 @@ namespace BusinessLogicLayer.ViewEnlisters
 {
     internal class User : ViewEnlisterBase<DTOVw.User, VwUser>
     {
-        protected override IQueryable<VwUser> QueryOneSort(IQueryable<VwUser> query, ViewEnlisterOrderItem4DTO orderDesc)
+        protected override IQueryable<VwUser> QueryOneSort(IQueryable<VwUser> query, bool isFirstSort, DTOVw.ViewEnlisterOrderItem4DTO orderDesc)
         {
             switch (orderDesc.ColumnId)
             {
-                case (int)EnUser.Id:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Id);
-                    else query = query.OrderByDescending(x => x.Id);
-                    break;
-                case (int)EnUser.FirstName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.FirstName);
-                    else query = query.OrderByDescending(x => x.FirstName);
-                    break;
-                case (int)EnUser.LastName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.LastName);
-                    else query = query.OrderByDescending(x => x.LastName);
-                    break;
-                case (int)EnUser.Patronymic:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Patronymic);
-                    else query = query.OrderByDescending(x => x.Patronymic);
-                    break;
-                case (int)EnUser.Login:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Login);
-                    else query = query.OrderByDescending(x => x.Login);
-                    break;
-                case (int)EnUser.PasswordSalt:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.PasswordSalt);
-                    else query = query.OrderByDescending(x => x.PasswordSalt);
-                    break;
-                case (int)EnUser.PasswordHash:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.PasswordHash);
-                    else query = query.OrderByDescending(x => x.PasswordHash);
-                    break;
-                case (int)EnUser.AccessGranted:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.AccessGranted);
-                    else query = query.OrderByDescending(x => x.AccessGranted);
-                    break;
-                case (int)EnUser.EMail:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.EMail);
-                    else query = query.OrderByDescending(x => x.EMail);
-                    break;
-                case (int)EnUser.VerificationObject:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.VerificationObject);
-                    else query = query.OrderByDescending(x => x.VerificationObject);
-                    break;
-                case (int)EnUser.RoleId:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.RoleId);
-                    else query = query.OrderByDescending(x => x.RoleId);
-                    break;
-                case (int)EnUser.RoleName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.RoleName);
-                    else query = query.OrderByDescending(x => x.RoleName);
-                    break;
-
-                default:
-                    throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.User.QueryOneSort()");
+                case (int)EnUser.Id: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Id);
+                case (int)EnUser.FirstName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.FirstName);
+                case (int)EnUser.LastName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.LastName);
+                case (int)EnUser.Patronymic: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Patronymic);
+                case (int)EnUser.Login: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Login);
+                case (int)EnUser.PasswordSalt: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.PasswordSalt);
+                case (int)EnUser.PasswordHash: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.PasswordHash);
+                case (int)EnUser.AccessGranted: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.AccessGranted);
+                case (int)EnUser.EMail: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.EMail);
+                case (int)EnUser.VerificationObject: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.VerificationObject);
+                case (int)EnUser.RoleId: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.RoleId);
+                case (int)EnUser.RoleName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.RoleName);
+                default: throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.User.QueryOneSort()");
             };
-
-            return query;
         }
     }
 }

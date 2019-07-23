@@ -20,59 +20,23 @@ namespace BusinessLogicLayer.ViewEnlisters
 {
     internal class AuditLog : ViewEnlisterBase<DTOVw.AuditLog, VwAuditLog>
     {
-        protected override IQueryable<VwAuditLog> QueryOneSort(IQueryable<VwAuditLog> query, ViewEnlisterOrderItem4DTO orderDesc)
+        protected override IQueryable<VwAuditLog> QueryOneSort(IQueryable<VwAuditLog> query, bool isFirstSort, DTOVw.ViewEnlisterOrderItem4DTO orderDesc)
         {
             switch (orderDesc.ColumnId)
             {
-                case (int)EnAuditLog.Id:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Id);
-                    else query = query.OrderByDescending(x => x.Id);
-                    break;
-                case (int)EnAuditLog.Time:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Time);
-                    else query = query.OrderByDescending(x => x.Time);
-                    break;
-                case (int)EnAuditLog.UserId:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserId);
-                    else query = query.OrderByDescending(x => x.UserId);
-                    break;
-                case (int)EnAuditLog.UserFirstName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserFirstName);
-                    else query = query.OrderByDescending(x => x.UserFirstName);
-                    break;
-                case (int)EnAuditLog.UserLastName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserLastName);
-                    else query = query.OrderByDescending(x => x.UserLastName);
-                    break;
-                case (int)EnAuditLog.UserPatronymic:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.UserPatronymic);
-                    else query = query.OrderByDescending(x => x.UserPatronymic);
-                    break;
-                case (int)EnAuditLog.ScreenPos:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.ScreenPos);
-                    else query = query.OrderByDescending(x => x.ScreenPos);
-                    break;
-                case (int)EnAuditLog.ScreenName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.ScreenName);
-                    else query = query.OrderByDescending(x => x.ScreenName);
-                    break;
-                case (int)EnAuditLog.ActionPos:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.ActionPos);
-                    else query = query.OrderByDescending(x => x.ActionPos);
-                    break;
-                case (int)EnAuditLog.ActionName:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.ActionName);
-                    else query = query.OrderByDescending(x => x.ActionName);
-                    break;
-                case (int)EnAuditLog.Description:
-                    if (orderDesc.Descending == false) query = query.OrderBy(x => x.Description);
-                    else query = query.OrderByDescending(x => x.Description);
-                    break;
-                default:
-                    throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.AuditLog.QueryOneSort()");
+                case (int)EnAuditLog.Id: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Id );
+                case (int)EnAuditLog.Time: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Time );
+                case (int)EnAuditLog.UserId: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserId);
+                case (int)EnAuditLog.UserFirstName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserFirstName);
+                case (int)EnAuditLog.UserLastName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserLastName);
+                case (int)EnAuditLog.UserPatronymic: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.UserPatronymic);
+                case (int)EnAuditLog.ScreenPos: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.ScreenPos);
+                case (int)EnAuditLog.ScreenName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.ScreenName);
+                case (int)EnAuditLog.ActionPos: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.ActionPos);
+                case (int)EnAuditLog.ActionName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.ActionName);
+                case (int)EnAuditLog.Description: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.Description);
+                default: throw new Exception("Такая колонка не поддерживается в BusinessLogicLayer.ViewEnlisters.AuditLog.QueryOneSort()");
             };
-
-            return query;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BusinessLogicLayer.Tools
                     x => ((filterUserName == null) || (x.FirstName + " " + x.LastName + " " + x.Patronymic).Contains(filterUserName))
                 );
         }
-        public List<DTOVw.User> EnlistView( string filterUserName, List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
+        public List<DTOVw.User> EnlistView( string filterUserName, List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
         {
             return 
                 currViewEnlister.Enlist

@@ -21,6 +21,6 @@ namespace BusinessLogicLayer
         void DeleteN(List<int> idList);
 
         int GetViewItemsCount(string filterFullFileName);
-        List<DTOVw.FileStorage> EnlistView(string filterFullFileName, List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount);
+        List<DTOVw.FileStorage> EnlistView(string filterFullFileName, List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount);
     }
 }

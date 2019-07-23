@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BusinessLogicLayer.Infrastructure
+namespace BusinessLogicLayer.DataTransferObjects.Views
 {
     public class ViewEnlisterOrderItem4DTO
     {

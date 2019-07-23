@@ -54,6 +54,7 @@ namespace BusinessLogicLayer.Tools
 
         public DTO.DictionaryValue ReadByDicIdAndPos(int dicId, int pos)
         {
+            CheckAndLoadOneDictionaryValues(dicId);
             var result = _perItemData.SingleOrDefault(x => x.Dictionary == dicId && x.Position == pos);
             return result;
         }
@@ -61,6 +62,14 @@ namespace BusinessLogicLayer.Tools
         public DTO.DictionaryValue ReadByItemId(int itemId)
         {
             var result = _perItemData.SingleOrDefault(x => x.Id == itemId);
+            if( result==null )
+            {
+                var ctx = PCAMonitorDBContextHolder.Get();
+                var proxy = ctx.TblDictionaryValue.Where(x => x.Id == itemId).SingleOrDefault();
+                if (proxy == null) return null;
+                result = _mapper.Map<TblDictionaryValue, DTO.DictionaryValue>(proxy);
+            }
+
             return result;
         }
     }

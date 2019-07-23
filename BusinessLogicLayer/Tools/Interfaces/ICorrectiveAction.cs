@@ -24,7 +24,7 @@ namespace BusinessLogicLayer
         int GetViewItemsCount(int? correctivaActionState, DateTime? startOfActionPeriod, DateTime? endOfActionPeriod);
         List<DTOVw.CorrectiveAction> EnlistView(
             int? correctiveActionState, DateTime? startOfActionPeriod, DateTime? endOfActionPeriod,
-            List<ViewEnlisterOrderItem4DTO> orderDescs,
+            List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs,
             int? firstRowNumber, int? rowsCount
         );
     }

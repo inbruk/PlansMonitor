@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.Tools
         {
             return currViewEnlister.GetItemsCount( x => (x.Name + "." + x.Extention).Contains(filterFullFileName) );
         }
-        public List<DTOVw.FileStorage> EnlistView( string filterFullFileName, List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
+        public List<DTOVw.FileStorage> EnlistView( string filterFullFileName, List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
         {
             return 
                 currViewEnlister.Enlist

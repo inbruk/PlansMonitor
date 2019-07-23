@@ -7,6 +7,7 @@ using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 
 using BLRep = BusinessLogicLayer.Repositories;
 using BLVwEn = BusinessLogicLayer.ViewEnlisters;
+using BusinessLogicLayer.DataTransferObjects.Views;
 
 namespace BusinessLogicLayer.Tools
 {
@@ -32,7 +33,7 @@ namespace BusinessLogicLayer.Tools
                     null
                 );
         }
-        public List<DTOVw.EmailTemplate> EnlistView(List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
+        public List<DTOVw.EmailTemplate> EnlistView(List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
         {
             return 
                 currViewEnlister.Enlist

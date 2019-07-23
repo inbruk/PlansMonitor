@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.Tools
                     null
                 );
         }
-        public List<DTOVw.Remark> EnlistView(List<ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
+        public List<DTOVw.Remark> EnlistView(List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount )
         {
             return 
                 currViewEnlister.Enlist
