@@ -4,7 +4,7 @@ using BusinessLogicLayer.Infrastructure;
 
 using DTO = BusinessLogicLayer.DataTransferObjects.Dictionaries;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Tools.Interfaces
 {
     // Внимание !!! Тут должны быть только те методы, которые нужны по ТЗ
     interface IDictionaryTool

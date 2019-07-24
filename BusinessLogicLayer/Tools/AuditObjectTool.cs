@@ -8,6 +8,8 @@ using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 using BLRep = BusinessLogicLayer.Repositories;
 using BLVwEn = BusinessLogicLayer.ViewEnlisters;
 
+using BusinessLogicLayer.Tools.Interfaces;
+
 namespace BusinessLogicLayer.Tools
 {
     // тут будут только методы необходимые от БЛ (и доступные) в других слоях

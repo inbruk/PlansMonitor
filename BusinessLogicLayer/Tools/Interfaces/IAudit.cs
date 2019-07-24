@@ -9,7 +9,7 @@ using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 using BLRep = BusinessLogicLayer.Repositories;
 using BLVwEn = BusinessLogicLayer.ViewEnlisters;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Tools.Interfaces
 {
     // Внимание !!! Тут должны быть только те методы, которые нужны по ТЗ
     public interface IAuditTool

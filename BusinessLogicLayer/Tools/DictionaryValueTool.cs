@@ -5,6 +5,7 @@ using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Auxiliary;
 using DTO = BusinessLogicLayer.DataTransferObjects.Dictionaries;
+using BusinessLogicLayer.Tools.Interfaces;
 using System.Linq;
 
 namespace BusinessLogicLayer.Tools

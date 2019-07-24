@@ -5,6 +5,8 @@ using BLVwEn = BusinessLogicLayer.ViewEnlisters;
 using DTOTbl = BusinessLogicLayer.DataTransferObjects.Tables;
 using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 
+using BusinessLogicLayer.Tools.Interfaces;
+
 namespace BusinessLogicLayer.Tools
 {
     public class RemarkTool : IRemarkTool

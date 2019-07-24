@@ -4,7 +4,7 @@ using BusinessLogicLayer.Infrastructure;
 
 using DTOTbl = BusinessLogicLayer.DataTransferObjects.Tables;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Tools.Interfaces
 {
     // Внимание !!! Тут должны быть только те методы, которые нужны по ТЗ
     public interface IUserRoleTool

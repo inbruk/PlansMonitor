@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-07-12 18:13:41
+-- Started on 2019-07-24 20:42:06
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -928,9 +928,9 @@ COPY public."tblAudit" ("Id", "Name", "AuditObject", "VerificationPeriodStart", 
 --
 
 COPY public."tblAuditLog" ("Id", "Time", "User", "Screen", "Action", "Description") FROM stdin;
-1	2019-07-04 00:00:00+03	1	1	1	ipugpiupi
 2	2019-07-03 00:00:00+03	1	1	1	фвыаафав
-3	2019-07-05 00:00:00+03	1	1	1	во
+1	2019-07-04 03:00:00+03	1	1	1	ipugpiupi
+3	2019-07-04 23:00:00+03	1	1	1	во
 \.
 
 
@@ -1096,7 +1096,7 @@ COPY public."tblRemark" ("Id", "ReportSubsectionNumber", "BusinessProcess", "Rem
 --
 
 COPY public."tblUser" ("Id", "FirstName", "LastName", "Patronymic", "Login", "PasswordSalt", "PasswordHash", "AccessGranted", "EMail", "Role", "VerificationObject") FROM stdin;
-1	Иван	Иванов	Иванович	ivan	87326321	23082368326	t	ivan@mail.ru	1	\N
+1	Иван	Иванов	Иванович	ivan	87326321	23082368326	t	some@mail.ru	1	\N
 \.
 
 
@@ -1132,7 +1132,7 @@ SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 72, true);
 -- Name: tbl_audit_log_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."tbl_audit_log_Id_seq"', 5, true);
+SELECT pg_catalog.setval('public."tbl_audit_log_Id_seq"', 90, true);
 
 
 --
@@ -1514,7 +1514,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-07-12 18:13:42
+-- Completed on 2019-07-24 20:42:07
 
 --
 -- PostgreSQL database dump complete

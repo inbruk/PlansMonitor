@@ -5,7 +5,7 @@ using BusinessLogicLayer.Infrastructure;
 using DTOTbl = BusinessLogicLayer.DataTransferObjects.Tables;
 using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Tools.Interfaces
 {
     // Внимание !!! Тут должны быть только те методы, которые нужны по ТЗ
     public interface IFileStorageTool

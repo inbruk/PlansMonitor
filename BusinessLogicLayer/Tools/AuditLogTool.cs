@@ -9,6 +9,8 @@ using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;
 using BLRep = BusinessLogicLayer.Repositories;
 using BLVwEn = BusinessLogicLayer.ViewEnlisters;
 
+using BusinessLogicLayer.Tools.Interfaces;
+
 namespace BusinessLogicLayer.Tools
 {
     public class AuditLogTool : IAuditLogTool

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using BusinessLogicLayer.Infrastructure;
+using BusinessLogicLayer.Tools.Interfaces;
 
 using DTOTbl = BusinessLogicLayer.DataTransferObjects.Tables;
 using DTOVw = BusinessLogicLayer.DataTransferObjects.Views;

@@ -12,6 +12,8 @@ using DataAccessLayer.Auxiliary;
 using DTO = BusinessLogicLayer.DataTransferObjects.Dictionaries;
 using System.Linq;
 
+using BusinessLogicLayer.Tools.Interfaces;
+
 namespace BusinessLogicLayer.Tools
 {
     // Лениво грузит все данные при любом первом запросе. И хранит их на случай повторного использования.
