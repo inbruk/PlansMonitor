@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-07-24 20:42:06
+-- Started on 2019-07-25 20:34:42
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -49,11 +49,21 @@ CREATE TABLE public."tblDictionaryValue" (
     "EngName4Code" character varying(1024),
     "Position" integer NOT NULL,
     "Dictionary" integer NOT NULL,
-    "Id" integer NOT NULL
+    "Id" integer NOT NULL,
+    "Description" character varying(2048)
 );
 
 
 ALTER TABLE public."tblDictionaryValue" OWNER TO postgres;
+
+--
+-- TOC entry 2983 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: COLUMN "tblDictionaryValue"."Description"; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."tblDictionaryValue"."Description" IS 'Описание элемента, используется далеко не во всех словарях';
+
 
 --
 -- TOC entry 200 (class 1259 OID 16464)
@@ -608,7 +618,8 @@ ALTER TABLE public."tblCorrectiveAction" OWNER TO postgres;
 CREATE TABLE public."tblDictionary" (
     "Id" integer NOT NULL,
     "Name" character varying(128) NOT NULL,
-    "EngName4Code" character varying(1024)
+    "EngName4Code" character varying(1024),
+    "Description" character varying(2048)
 );
 
 
@@ -962,18 +973,19 @@ COPY public."tblCorrectiveAction" ("Id", "Audit", "Name", "ExecutiveOfficerFirst
 -- Data for Name: tblDictionary; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."tblDictionary" ("Id", "Name", "EngName4Code") FROM stdin;
-2	Экран	Screen4AuditLog
-1	Действие в логе аудита	Action4AuditLog
-3	Субъект аудита	AuditSubject
-4	Статус проведения мониторинга	MonitoringProgressStatus
-5	Бизнес процесс	BusinessProcess
-6	Итоговый уровень оценки замечания	TotalAssessmentLevel
-7	Тип замечания	RemarkType
-8	Отметка объекта проверки о выполнении мероприятия	EvaluationCheckMarkOnCA
-9	Оценка эффективности выполнения мероприятия	CorrectiveActionEffectEvaluation
-10	Статус выполнения корректирующего мероприятия 	CorrectiveActionState
-11	Тип шаблона почты	EMailTemplateType
+COPY public."tblDictionary" ("Id", "Name", "EngName4Code", "Description") FROM stdin;
+2	Экран	Screen4AuditLog	\N
+1	Действие в логе аудита	Action4AuditLog	\N
+3	Субъект аудита	AuditSubject	\N
+4	Статус проведения мониторинга	MonitoringProgressStatus	\N
+5	Бизнес процесс	BusinessProcess	\N
+6	Итоговый уровень оценки замечания	TotalAssessmentLevel	\N
+7	Тип замечания	RemarkType	\N
+8	Отметка объекта проверки о выполнении мероприятия	EvaluationCheckMarkOnCA	\N
+9	Оценка эффективности выполнения мероприятия	CorrectiveActionEffectEvaluation	\N
+10	Статус выполнения корректирующего мероприятия 	CorrectiveActionState	\N
+11	Тип шаблона почты	EMailTemplateType	\N
+12	Тег шаблона E-Mail	EMailTemplateTag	\N
 \.
 
 
@@ -983,79 +995,95 @@ COPY public."tblDictionary" ("Id", "Name", "EngName4Code") FROM stdin;
 -- Data for Name: tblDictionaryValue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionary", "Id") FROM stdin;
-СВА	SVA	1	3	1
-Пост-контроль для внешних проверок	PostControl4ExternalAudits	2	5	2
-Пост-контроль для внутренних проверок	PostControl4InternalAudits	1	5	3
-Умеренная	Moderate	1	6	4
-Значимая	Significant	2	6	5
-Нарушение	Violation	1	7	6
-Выполнено	Done	1	8	7
-Уведомление об истечении срока исполнения мероприятия	NotificationExpirationTermOfCAPreformance	5	11	8
-Уведомление  о  загрузке  ежеквартального Отчета об исполнении ПКМ	NotificationAboutDnldQuarterlyReportOnPCAPerform	6	11	9
-Загрузка данных	DataLoading	9	1	10
-Отмена загрузки данных	CancelDataLoading	10	1	11
-Отправка	Send	12	1	12
-Блокировка	Lock	13	1	13
-Разблокировка	Unlock	14	1	14
-Восстановление	Restore	15	1	15
-Выгрузка	Unload	16	1	16
-Карточка замечания	RemarkForm	11	2	17
-Главная страница Системы\\ История изменений	MainScreenHistoryOfChanges	3	2	18
-Карточка проверки\\ Общая информация	CAFormCommonInfo	6	2	19
-Карточка проверки \\ логирование отправки уведомлений	AuditFormNotificationSendLogging	5	2	20
-Карточка проверки\\ Основной рабочий экран\\ Статистика	AuditFormStatistics	10	2	21
-Карточка проверки\\ Основной рабочий экран	AuditFormMainScreen	9	2	22
-Карточка проверки\\ Хранилище файлов по проверке\\ Превью	AuditFormFileStoragePreview	8	2	23
-Карточка проверки\\ Хранилище файлов по проверке	AuditFormFileStorage	7	2	24
-Страница авторизации 	AuthorizationScreen	1	2	25
-Главная страница Системы	MainScreen	2	2	26
-Просмотр истории	ViewHistory	6	1	27
-Создание	Create	1	1	28
-Просмотр карточки	Read	2	1	29
-Редактирование	Update	3	1	30
-Просмотр файла	FileView	17	1	31
-Неэффективно	Inefficient	2	9	33
-Вторичная верификация	SecondaryVerification	4	4	34
-Исполнение	Execution	1	10	35
-ДКиУР	DkIUr	2	3	36
-Импортирование	Import	11	1	37
-Критическая	Critical	3	6	38
-Недостаток	Disadvantage	2	7	39
-В стадии исполнения	InProgress	3	8	40
-Не выполнено	NotDone	2	8	41
-Запрос РП на внесение замечаний	Request4AddRemarks	1	11	42
-Эффективно	Effectively	1	9	43
-Запрос ответственному  сотруднику  Объекта проверки на внесение 	Req2RespPersonSubjectAuditor	2	11	44
-Уведомление о приближении срока исполнения мероприятия	NotificationApproachingDateOfCAPreformance	3	11	45
-Уведомление о наступлении срока исполнения мероприятия	NotificationAboutMaturityDateOfCAPreformance	4	11	46
-Удаление	Delete	4	1	47
-Формирование	Formation	1	4	48
-ПКМ сформирован	PCAIsFormed	2	4	49
-Первичная верификация	PrimaryVerification	3	4	50
-Загрузка рабочего экрана	List	5	1	51
-Экспортирование отчета	Export	7	1	52
-Изменение пароля	ChangePassword	8	1	53
-Поиск	Find	18	1	54
-Просмотр файлов	ViewingFiles	19	1	55
-Создание новой учетной записи	CreateNewAccount	20	1	56
-Глобальный поиск	GlobalSearch	4	2	57
-Карточка мероприятия	CorrectiveActionForm	12	2	58
-Доработка	Revision	5	4	59
-Карточка мероприятия\\ Список файлов	CAFormFileList	14	2	60
-Карточка мероприятия\\ Комментарии	CAFormComments	13	2	61
-Администрирование\\ Настройка шаблонов	AdminTemplateTuning	17	2	62
-Администрирование\\ Журнал аудита	AdminAuditLog	16	2	63
-Администрирование\\ Управление пользователями	AdminUserManagement	15	2	64
-Просрочено	Expired	2	10	65
-Первичная верификация	PrimaryVerification	3	10	66
-Вторичная верификация	SecondaryVerification	4	10	67
-Доработка	Revision	5	10	68
-Исполнено в срок	ExecutedOnTime	6	10	69
-Исполнено с нарушением срока	ExecutedInDeadlineViolation	7	10	70
-Отсутствует	Missing	8	10	71
-Не выполнено	NotPerformed	9	10	72
-Завершен	Completed	6	4	32
+COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionary", "Id", "Description") FROM stdin;
+СВА	SVA	1	3	1	\N
+Пост-контроль для внешних проверок	PostControl4ExternalAudits	2	5	2	\N
+Пост-контроль для внутренних проверок	PostControl4InternalAudits	1	5	3	\N
+Умеренная	Moderate	1	6	4	\N
+Значимая	Significant	2	6	5	\N
+Нарушение	Violation	1	7	6	\N
+Выполнено	Done	1	8	7	\N
+Уведомление об истечении срока исполнения мероприятия	NotificationExpirationTermOfCAPreformance	5	11	8	\N
+Уведомление  о  загрузке  ежеквартального Отчета об исполнении ПКМ	NotificationAboutDnldQuarterlyReportOnPCAPerform	6	11	9	\N
+Загрузка данных	DataLoading	9	1	10	\N
+Отмена загрузки данных	CancelDataLoading	10	1	11	\N
+Отправка	Send	12	1	12	\N
+Блокировка	Lock	13	1	13	\N
+Разблокировка	Unlock	14	1	14	\N
+Восстановление	Restore	15	1	15	\N
+Выгрузка	Unload	16	1	16	\N
+Карточка замечания	RemarkForm	11	2	17	\N
+Главная страница Системы\\ История изменений	MainScreenHistoryOfChanges	3	2	18	\N
+Карточка проверки\\ Общая информация	CAFormCommonInfo	6	2	19	\N
+Карточка проверки \\ логирование отправки уведомлений	AuditFormNotificationSendLogging	5	2	20	\N
+Карточка проверки\\ Основной рабочий экран\\ Статистика	AuditFormStatistics	10	2	21	\N
+Карточка проверки\\ Основной рабочий экран	AuditFormMainScreen	9	2	22	\N
+Карточка проверки\\ Хранилище файлов по проверке\\ Превью	AuditFormFileStoragePreview	8	2	23	\N
+Карточка проверки\\ Хранилище файлов по проверке	AuditFormFileStorage	7	2	24	\N
+Страница авторизации 	AuthorizationScreen	1	2	25	\N
+Главная страница Системы	MainScreen	2	2	26	\N
+Просмотр истории	ViewHistory	6	1	27	\N
+Создание	Create	1	1	28	\N
+Просмотр карточки	Read	2	1	29	\N
+Редактирование	Update	3	1	30	\N
+Просмотр файла	FileView	17	1	31	\N
+Неэффективно	Inefficient	2	9	33	\N
+Вторичная верификация	SecondaryVerification	4	4	34	\N
+Исполнение	Execution	1	10	35	\N
+ДКиУР	DkIUr	2	3	36	\N
+Импортирование	Import	11	1	37	\N
+Критическая	Critical	3	6	38	\N
+Недостаток	Disadvantage	2	7	39	\N
+В стадии исполнения	InProgress	3	8	40	\N
+Не выполнено	NotDone	2	8	41	\N
+Запрос РП на внесение замечаний	Request4AddRemarks	1	11	42	\N
+Эффективно	Effectively	1	9	43	\N
+Запрос ответственному  сотруднику  Объекта проверки на внесение 	Req2RespPersonSubjectAuditor	2	11	44	\N
+Уведомление о приближении срока исполнения мероприятия	NotificationApproachingDateOfCAPreformance	3	11	45	\N
+Уведомление о наступлении срока исполнения мероприятия	NotificationAboutMaturityDateOfCAPreformance	4	11	46	\N
+Удаление	Delete	4	1	47	\N
+Формирование	Formation	1	4	48	\N
+ПКМ сформирован	PCAIsFormed	2	4	49	\N
+Первичная верификация	PrimaryVerification	3	4	50	\N
+Загрузка рабочего экрана	List	5	1	51	\N
+Экспортирование отчета	Export	7	1	52	\N
+Изменение пароля	ChangePassword	8	1	53	\N
+Поиск	Find	18	1	54	\N
+Просмотр файлов	ViewingFiles	19	1	55	\N
+Создание новой учетной записи	CreateNewAccount	20	1	56	\N
+Глобальный поиск	GlobalSearch	4	2	57	\N
+Карточка мероприятия	CorrectiveActionForm	12	2	58	\N
+Доработка	Revision	5	4	59	\N
+Карточка мероприятия\\ Список файлов	CAFormFileList	14	2	60	\N
+Карточка мероприятия\\ Комментарии	CAFormComments	13	2	61	\N
+Администрирование\\ Настройка шаблонов	AdminTemplateTuning	17	2	62	\N
+Администрирование\\ Журнал аудита	AdminAuditLog	16	2	63	\N
+Администрирование\\ Управление пользователями	AdminUserManagement	15	2	64	\N
+Просрочено	Expired	2	10	65	\N
+Первичная верификация	PrimaryVerification	3	10	66	\N
+Вторичная верификация	SecondaryVerification	4	10	67	\N
+Доработка	Revision	5	10	68	\N
+Исполнено в срок	ExecutedOnTime	6	10	69	\N
+Исполнено с нарушением срока	ExecutedInDeadlineViolation	7	10	70	\N
+Отсутствует	Missing	8	10	71	\N
+Не выполнено	NotPerformed	9	10	72	\N
+Завершен	Completed	6	4	32	\N
+Аудит.Основание	EMailTemplateTag4Audit_Ground	4	12	76	Основание для проверки
+Аудит.Период	EMailTemplateTag4Audit_Period	3	12	75	Проверяемый период
+Аудит.Объект	EMailTemplateTag4Audit_Object	2	12	74	Объект проверки
+Аудит.Наименование	EMailTemplateTag4Audit_Name	1	12	73	Наименование проверки
+ЗамечаниеВнуП.ПодраздОтчета	EMailTemplateTag4RemarkInternalAudit_ReportSubsNum	5	12	77	№ подраздела отчета
+ЗамечаниеВнуП.Описание	EMailTemplateTag4RemarkInternalAudit_Description	6	12	79	Описание замечания
+ЗамечаниеВнеП.РазделПрил	EMailTemplateTag4RemarkExternalAudit_SectAttach	7	12	80	Раздел/приложение
+ЗамечаниеВнеП.СодНаруш	EMailTemplateTag4RemarkExternalAudit_ViolaContent	8	12	81	Содержание нарушения
+МероприятиеВнуП.КоррМер	EMailTemplateTag4CAInternalAudit_CA	9	12	82	Корректирующее мероприятие
+МероприятиеВнуП.ПланСрок	EMailTemplateTag4CAInternalAudit_PlanExeDate	10	12	83	Плановый срок исполнения мероприятия
+МероприятиеВнуП.ОтвИспФИО	EMailTemplateTag4CAInternalAudit_ExecOfficer	11	12	84	Ответственный исполнитель(ФИО)
+МероприятиеВнуП.ФактСрокИсп	EMailTemplateTag4CAInternalAudit_FactExePeriod	12	12	85	Фактический срок исполнения мероприятия
+МероприятиеВнеП.КоррМер	EMailTemplateTag4CAExternalAudit_CA	13	12	87	Корректирующее мероприятие
+МероприятиеВнеП.УстСрок	EMailTemplateTag4CAExternalAudit_PlanExeDate	14	12	88	Установленные сроки реализации мероприятий
+МероприятиеВнеП.ОтвИспФИО	EMailTemplateTag4CAExternalAudit_ExecOfficer	15	12	89	Ответственный исполнитель(ФИО)
+МероприятиеВнеП.ФактСрокИсп	EMailTemplateTag4CAExternalAudit_FactExePeriod	16	12	90	Фактический срок исполнения мероприятия
 \.
 
 
@@ -1118,16 +1146,16 @@ COPY public."tblUserRole" ("Id", "Name", "Comment", "IsAuditOjectRestricted") FR
 
 
 --
--- TOC entry 2983 (class 0 OID 0)
+-- TOC entry 2984 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: tblDictionaryValue_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 72, true);
+SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 90, true);
 
 
 --
--- TOC entry 2984 (class 0 OID 0)
+-- TOC entry 2985 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: tbl_audit_log_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1136,7 +1164,7 @@ SELECT pg_catalog.setval('public."tbl_audit_log_Id_seq"', 90, true);
 
 
 --
--- TOC entry 2985 (class 0 OID 0)
+-- TOC entry 2986 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: tbl_controlled_society_Id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1145,7 +1173,7 @@ SELECT pg_catalog.setval('public."tbl_controlled_society_Id_seq1"', 1, false);
 
 
 --
--- TOC entry 2986 (class 0 OID 0)
+-- TOC entry 2987 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: tbl_email_template_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1154,7 +1182,7 @@ SELECT pg_catalog.setval('public."tbl_email_template_Id_seq"', 1, false);
 
 
 --
--- TOC entry 2987 (class 0 OID 0)
+-- TOC entry 2988 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: tbl_user_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1163,7 +1191,7 @@ SELECT pg_catalog.setval('public."tbl_user_Id_seq"', 1, false);
 
 
 --
--- TOC entry 2988 (class 0 OID 0)
+-- TOC entry 2989 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: tbl_user_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1514,7 +1542,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-07-24 20:42:07
+-- Completed on 2019-07-25 20:34:43
 
 --
 -- PostgreSQL database dump complete

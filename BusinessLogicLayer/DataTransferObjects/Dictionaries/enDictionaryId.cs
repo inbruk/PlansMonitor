@@ -15,7 +15,8 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         RemarkType = 7,
         EvaluationCheckMarkOnCA = 8,
         CorrectiveActionEffectEvaluation = 9,
-        CorrectiveActionState = 10,
-        EMailTemplateType = 11
+        CorrectiveActionStat = 10,
+        EMailTemplateType = 11,
+        EMailTemplateTag = 12
     }
 }

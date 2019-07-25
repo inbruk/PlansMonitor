@@ -12,7 +12,6 @@ namespace DataAccessLayer
         }
 
         public int Id { get; set; }
-        public int BusinessProcess { get; set; }
         public string Name { get; set; }
         public int? AuditObject { get; set; }
         public DateTime VerificationPeriodStart { get; set; }
@@ -34,6 +33,7 @@ namespace DataAccessLayer
         public int MonitoringProgressStatus { get; set; }
         public DateTime? CapmonitoringCompleteDate { get; set; }
         public int? AuditSuperviser { get; set; }
+        public int BusinessProcess { get; set; }
 
         public virtual TblAuditObject AuditObjectNavigation { get; set; }
         public virtual TblUser AuditSuperviserNavigation { get; set; }

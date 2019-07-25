@@ -12,5 +12,6 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         public string EngName4Code { get; set; }
         public int Position { get; set; }
         public int Dictionary { get; set; }
+        public string Description { get; set; }
     }
 }

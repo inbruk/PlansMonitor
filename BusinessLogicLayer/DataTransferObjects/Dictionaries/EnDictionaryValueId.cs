@@ -77,6 +77,22 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         EMailTemplateType_NotificationApproachingDateOfCAPreformance = 45,
         EMailTemplateType_NotificationAboutMaturityDateOfCAPreformance = 46,
         EMailTemplateType_NotificationExpirationTermOfCAPreformance = 8,
-        EMailTemplateType_NotificationAboutDnldQuarterlyReportOnPCAPerform = 9
+        EMailTemplateType_NotificationAboutDnldQuarterlyReportOnPCAPerform = 9,
+        EMailTemplateTag4Audit_Name	    =73,
+        EMailTemplateTag4Audit_Object	=74,
+        EMailTemplateTag4Audit_Period	=75,
+        EMailTemplateTag4Audit_Ground	=76,
+        EMailTemplateTag4RemarkInternalAudit_ReportSubsNum	=77,
+        EMailTemplateTag4RemarkInternalAudit_Description	=79,
+        EMailTemplateTag4RemarkExternalAudit_SectAttach	    =80,
+        EMailTemplateTag4RemarkExternalAudit_ViolaContent	=81,
+        EMailTemplateTag4CAInternalAudit_CA	             =82,
+        EMailTemplateTag4CAInternalAudit_PlanExeDate	=83,
+        EMailTemplateTag4CAInternalAudit_ExecOfficer	=84,
+        EMailTemplateTag4CAInternalAudit_FactExePeriod	=85,
+        EMailTemplateTag4CAExternalAudit_CA	=87,
+        EMailTemplateTag4CAExternalAudit_PlanExeDate	=88,
+        EMailTemplateTag4CAExternalAudit_ExecOfficer	=89,
+        EMailTemplateTag4CAExternalAudit_FactExePeriod	=90
     }
 }

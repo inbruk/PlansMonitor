@@ -31,7 +31,8 @@ namespace DataAccessLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                throw new Exception("Конфигурирование PlansMonitorContext должно производиться в потомках, или снаружи !");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseNpgsql("Host=localhost;Database=PlansMonitor;Username=postgres;Password=12345");
             }
         }
 
@@ -183,11 +184,6 @@ namespace DataAccessLayer
 
                 entity.Property(e => e.ConclusionCorrectiveActionEffectEvaluation).HasMaxLength(2048);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("Name")
-                    .HasMaxLength(128);
-
                 entity.Property(e => e.CorrectiveActionStateComment).HasMaxLength(2048);
 
                 entity.Property(e => e.EvalAccordRecomForPrepOfCacomment)
@@ -224,6 +220,10 @@ namespace DataAccessLayer
 
                 entity.Property(e => e.MonitoringOfficerPatronymic).HasMaxLength(64);
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+
                 entity.Property(e => e.NotDevelopmentCacomment)
                     .HasColumnName("NotDevelopmentCAComment")
                     .HasMaxLength(4096);
@@ -255,6 +255,8 @@ namespace DataAccessLayer
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.Description).HasMaxLength(2048);
+
                 entity.Property(e => e.EngName4Code).HasMaxLength(1024);
 
                 entity.Property(e => e.Name)
@@ -264,10 +266,17 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<TblDictionaryValue>(entity =>
             {
-                entity.HasKey(e => new { e.Dictionary, e.Position })
-                    .HasName("pk_dicvalue");
-
                 entity.ToTable("tblDictionaryValue");
+
+                entity.HasIndex(e => new { e.Dictionary, e.Position })
+                    .HasName("uk_Dictionary_Position")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).UseNpgsqlIdentityByDefaultColumn();
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(2048)
+                    .ForNpgsqlHasComment("Описание элемента, используется далеко не во всех словарях");
 
                 entity.Property(e => e.EngName4Code).HasMaxLength(1024);
 
@@ -279,8 +288,7 @@ namespace DataAccessLayer
                     .WithMany(p => p.TblDictionaryValue)
                     .HasForeignKey(d => d.Dictionary)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("pk_id")
-                    .HasConstraintName("uk_Dictionary_Position");
+                    .HasConstraintName("fk_dicvalue_dic");
             });
 
             modelBuilder.Entity<TblEmailTemplate>(entity =>
