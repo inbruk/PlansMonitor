@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Mail;
+
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessLogicLayer.Infrastructure
 {

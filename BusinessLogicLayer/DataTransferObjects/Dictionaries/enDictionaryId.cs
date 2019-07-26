@@ -17,6 +17,7 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         CorrectiveActionEffectEvaluation = 9,
         CorrectiveActionStat = 10,
         EMailTemplateType = 11,
-        EMailTemplateTag = 12
+        EMailTemplateTag = 12,
+        EMailConvertingError = 13
     }
 }

@@ -26,6 +26,7 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         Action4AuditLog_Find = 54,
         Action4AuditLog_ViewingFiles = 55,
         Action4AuditLog_CreateNewAccount = 56,
+
         Screen4AuditLog_AuthorizationScreen = 25,
         Screen4AuditLog_MainScreen = 26,
         Screen4AuditLog_MainScreenHistoryOfChanges = 18,
@@ -43,24 +44,31 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         Screen4AuditLog_AdminUserManagement = 64,
         Screen4AuditLog_AdminAuditLog = 63,
         Screen4AuditLog_AdminTemplateTuning = 62,
+
         AuditSubject_SVA = 1,
         AuditSubject_DkIUr = 36,
+
         MonitoringProgressStatus_Formation = 48,
         MonitoringProgressStatus_PCAIsFormed = 49,
         MonitoringProgressStatus_PrimaryVerification = 50,
         MonitoringProgressStatus_SecondaryVerification = 34,
         MonitoringProgressStatus_Revision = 59,
         MonitoringProgressStatus_Completed = 32,
+
         BusinessProcess_PostControl4InternalAudits = 3,
         BusinessProcess_PostControl4ExternalAudits = 2,
+
         TotalAssessmentLevel_Moderate = 4,
         TotalAssessmentLevel_Significant = 5,
         TotalAssessmentLevel_Critical = 38,
+
         RemarkType_Violation = 6,
         RemarkType_Disadvantage = 39,
+
         EvaluationCheckMarkOnCA_Done = 7,
         EvaluationCheckMarkOnCA_NotDone = 41,
         EvaluationCheckMarkOnCA_InProgress = 40,
+
         CorrectiveActionEffectEvaluation_Effectively = 43,
         CorrectiveActionEffectEvaluation_Inefficient = 33,
         CorrectiveActionState_Execution = 35,
@@ -72,12 +80,14 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         CorrectiveActionState_ExecutedInDeadlineViolation = 70,
         CorrectiveActionState_Missing = 71,
         CorrectiveActionState_NotPerformed = 72,
+
         EMailTemplateType_Request4AddRemarks = 42,
         EMailTemplateType_Req2RespPersonSubjectAuditor = 44,
         EMailTemplateType_NotificationApproachingDateOfCAPreformance = 45,
         EMailTemplateType_NotificationAboutMaturityDateOfCAPreformance = 46,
         EMailTemplateType_NotificationExpirationTermOfCAPreformance = 8,
         EMailTemplateType_NotificationAboutDnldQuarterlyReportOnPCAPerform = 9,
+
         EMailTemplateTag4Audit_Name	    =73,
         EMailTemplateTag4Audit_Object	=74,
         EMailTemplateTag4Audit_Period	=75,
@@ -93,6 +103,11 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         EMailTemplateTag4CAExternalAudit_CA	=87,
         EMailTemplateTag4CAExternalAudit_PlanExeDate	=88,
         EMailTemplateTag4CAExternalAudit_ExecOfficer	=89,
-        EMailTemplateTag4CAExternalAudit_FactExePeriod	=90
+        EMailTemplateTag4CAExternalAudit_FactExePeriod	=90,
+
+        EMailConverterError_TagNotFound	                =91,
+        EMailConverterError_TagNotFinishedProperly	    =92,
+        EMailConverterError_TagTerminatedBySpaceOrEof	=93,
+
     }
 }
