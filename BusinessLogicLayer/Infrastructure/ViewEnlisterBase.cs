@@ -14,8 +14,8 @@ using BusinessLogicLayer.DataTransferObjects.Views;
 namespace BusinessLogicLayer.Infrastructure
 {
     internal abstract class ViewEnlisterBase<DVO, VW>
-         where DVO : class
-         where VW : class
+         where DVO : class, IObjectWithIdProperty<int>
+         where VW : class, IObjectWithIdProperty<int>
     {
         protected readonly IMapper mapper = null;
         public ViewEnlisterBase()
@@ -111,6 +111,13 @@ namespace BusinessLogicLayer.Infrastructure
 
             int count = query.Count();
             return count;
+        }
+
+        public DVO Enlist1(int id)
+        {
+            VW viewData = CurrDBCtx.Query<VW>().Where( x => x.Id==id ).SingleOrDefault();
+            DVO result = mapper.Map<VW, DVO>(viewData);
+            return result;
         }
 
         public List<DVO> Enlist

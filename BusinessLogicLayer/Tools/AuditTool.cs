@@ -34,6 +34,12 @@ namespace BusinessLogicLayer.Tools
                         (verifPeriond == null || x.VerificationPeriod.Contains(verifPeriond) )
                 );
         }
+
+        public DTOVw.Audit Enlist1(int id)
+        {
+            return currViewEnlister.Enlist1(id);
+        }
+
         public List<DTOVw.Audit> EnlistView
             (
                 int? bussProc, int? auditObject, string verifPeriond,

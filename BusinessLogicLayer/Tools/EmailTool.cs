@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+using BusinessLogicLayer.DataTransferObjects;
 using DTOTbl = BusinessLogicLayer.DataTransferObjects.Tables;
 
 using BusinessLogicLayer.Infrastructure;

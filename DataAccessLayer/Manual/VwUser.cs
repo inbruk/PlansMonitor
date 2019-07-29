@@ -6,7 +6,7 @@ using Patterns;
 
 namespace DataAccessLayer
 {
-    public class VwUser 
+    public class VwUser : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

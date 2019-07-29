@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class Audit
+    public class Audit : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int BusinessProcess { get; set; }

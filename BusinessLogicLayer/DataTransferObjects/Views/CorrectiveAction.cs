@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class CorrectiveAction
+    public class CorrectiveAction : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int Audit { get; set; }

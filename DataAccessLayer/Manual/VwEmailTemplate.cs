@@ -6,7 +6,7 @@ using Patterns;
 
 namespace DataAccessLayer
 {
-    public class VwEmailTemplate 
+    public class VwEmailTemplate : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string Template { get; set; }

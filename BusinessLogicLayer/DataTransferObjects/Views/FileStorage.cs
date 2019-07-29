@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class FileStorage
+    public class FileStorage : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

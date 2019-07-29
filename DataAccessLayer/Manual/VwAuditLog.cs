@@ -6,7 +6,7 @@ using Patterns;
 
 namespace DataAccessLayer
 {
-    public class VwAuditLog 
+    public class VwAuditLog : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }

@@ -37,6 +37,10 @@ namespace BusinessLogicLayer.Tools
                         (endOfActionPeriod == null || x.PlannedExecutionDate < endOfActionPeriod)
                 );
         }
+        public DTOVw.CorrectiveAction Enlist1(int id)
+        {
+            return currViewEnlister.Enlist1(id);
+        }
         public List<DTOVw.CorrectiveAction> EnlistView
             (
                 int? correctiveActionState, DateTime? startOfActionPeriod, DateTime? endOfActionPeriod,

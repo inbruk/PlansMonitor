@@ -6,7 +6,7 @@ using Patterns;
 
 namespace DataAccessLayer
 {
-    public class VwCorrectiveAction 
+    public class VwCorrectiveAction : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int Audit { get; set; }

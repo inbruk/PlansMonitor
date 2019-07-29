@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class EmailTemplate
+    public class EmailTemplate : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string Template { get; set; }

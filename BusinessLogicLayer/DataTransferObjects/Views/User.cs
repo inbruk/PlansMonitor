@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class User
+    public class User : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

@@ -6,7 +6,7 @@ using Patterns;
 
 namespace BusinessLogicLayer.DataTransferObjects.Views
 {
-    public class Remark
+    public class Remark : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public int ReportSubsectionNumber { get; set; }

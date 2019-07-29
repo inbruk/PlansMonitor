@@ -6,7 +6,7 @@ using Patterns;
 
 namespace DataAccessLayer
 {
-    public class VwFileStorage 
+    public class VwFileStorage : IObjectWithIdProperty<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

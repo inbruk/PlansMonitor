@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-07-25 20:34:42
+-- Started on 2019-07-26 03:56:45
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -986,6 +986,7 @@ COPY public."tblDictionary" ("Id", "Name", "EngName4Code", "Description") FROM s
 10	Статус выполнения корректирующего мероприятия 	CorrectiveActionState	\N
 11	Тип шаблона почты	EMailTemplateType	\N
 12	Тег шаблона E-Mail	EMailTemplateTag	\N
+13	Ошибки преобразования шаблона в письмо	EMailConvertingError	\N
 \.
 
 
@@ -1084,6 +1085,9 @@ COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionar
 МероприятиеВнеП.УстСрок	EMailTemplateTag4CAExternalAudit_PlanExeDate	14	12	88	Установленные сроки реализации мероприятий
 МероприятиеВнеП.ОтвИспФИО	EMailTemplateTag4CAExternalAudit_ExecOfficer	15	12	89	Ответственный исполнитель(ФИО)
 МероприятиеВнеП.ФактСрокИсп	EMailTemplateTag4CAExternalAudit_FactExePeriod	16	12	90	Фактический срок исполнения мероприятия
+Тег не найден	EMailConverterError_TagNotFound	1	13	91	
+Тег не был завершен правильно	EMailConverterError_TagNotFinishedProperly	2	13	92	
+Тег был прерван пробелом или концом строки	EMailConverterError_TagTerminatedBySpaceOrEof	3	13	93	
 \.
 
 
@@ -1151,7 +1155,7 @@ COPY public."tblUserRole" ("Id", "Name", "Comment", "IsAuditOjectRestricted") FR
 -- Name: tblDictionaryValue_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 90, true);
+SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 93, true);
 
 
 --
@@ -1542,7 +1546,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-07-25 20:34:43
+-- Completed on 2019-07-26 03:56:46
 
 --
 -- PostgreSQL database dump complete
