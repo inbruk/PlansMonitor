@@ -19,7 +19,7 @@ namespace Test_EmailTool
         {
             Console.WriteLine("Try to send a mail. Check app config -------------------------------------------------------------------------");
             var emailTool = EmailToolHolder.Get();
-
+            
                                     //  V  тут ваше мыло на которое прийдет 1 письмо
             emailTool.SendFromDefault("...", "test 22 send from default to custom email", "Если вам не удается войти в свой клиент электронной почты, вы можете видеть такие ошибки");
             emailTool.SendFromDefaultToUser( 1, "test 33 send from default to user", "Воспользуйтесь паролем приложения. Если вы используете двухэтапную аутентификацию, введите пароль приложения.");
