@@ -21,6 +21,7 @@ namespace BusinessLogicLayer.Tools.Interfaces
         void DeleteN(List<int> idList);
 
         int GetViewItemsCount();
+        DTOVw.Remark Enlist1(int id);
         List<DTOVw.Remark> EnlistView(List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs, int? firstRowNumber, int? rowsCount);
     }
 }

@@ -7,14 +7,15 @@ using BusinessLogicLayer.DataTransferObjects;
 using BusinessLogicLayer.DataTransferObjects.Dictionaries;
 using BusinessLogicLayer.DataTransferObjects.Views;
 using BusinessLogicLayer.Tools;
+using BusinessLogicLayer.Tools.Holders;
 
 namespace BusinessLogicLayer.Infrastructure
 {
     internal class EMailConverter
     {
-        private readonly Audit _currentAudit;
-        private readonly Remark _currentRemark;
-        private readonly CorrectiveAction _correctiveAction;
+        private Audit _currentAudit;
+        private Remark _currentRemark;
+        private CorrectiveAction _correctiveAction;
 
         private readonly List<DictionaryValue> _tagDictionaryContent;
         private readonly List<DictionaryValue> _convEmailErrors;
@@ -25,10 +26,18 @@ namespace BusinessLogicLayer.Infrastructure
             _currentRemark = currRemark;
             _correctiveAction = currCorrAction;
 
-            DictionaryValueTool dvTool = new DictionaryValueTool();
+            DictionaryValueTool dvTool = DictionaryValueToolHolder.Get();
             _tagDictionaryContent = dvTool.ReadSeveralByDicId((int)EnDictionaryId.EMailTemplateTag);
             _convEmailErrors = dvTool.ReadSeveralByDicId((int)EnDictionaryId.EMailConvertingError);
         }
+
+        public void UpdateMainObjects(Audit currAudit, Remark currRemark, CorrectiveAction currCorrAction)
+        {
+            _currentAudit = currAudit;
+            _currentRemark = currRemark;
+            _correctiveAction = currCorrAction;
+        }
+
         private int? ConvertString2TagId(string tagStr)
         {
             DictionaryValue dv = _tagDictionaryContent.SingleOrDefault(x => x.Name == tagStr);
@@ -36,7 +45,7 @@ namespace BusinessLogicLayer.Infrastructure
             if (dv == null)
                 tag_id = null;
             else
-                tag_id = dv.Position;
+                tag_id = dv.Id;
             return tag_id;
         }
 
@@ -81,7 +90,7 @@ namespace BusinessLogicLayer.Infrastructure
         private struct NextControlSymbolAndPos
         {
             public EnControlSymbol NextControlSymbol;
-            public int Position;
+            // public int Position;
             public string BeforeSubstring;
             public string AfterSubstring;
         }
@@ -89,24 +98,31 @@ namespace BusinessLogicLayer.Infrastructure
         private NextControlSymbolAndPos Scan4NextControlSymbol( string theRestOfTheMessage )
         {
             NextControlSymbolAndPos result = new NextControlSymbolAndPos();
+            result.NextControlSymbol = EnControlSymbol.EndOfMessage; // перестраховка
 
             int i;
             int length = theRestOfTheMessage.Length;
+            bool exitCycle = false;
             for (i=0; i<length-1; i++)
             {
                 Char currChar = theRestOfTheMessage[i];
                 switch (currChar)
                 {
-                    case '{': result.NextControlSymbol = EnControlSymbol.LeftCurlyBracket; break;
-                    case '}': result.NextControlSymbol = EnControlSymbol.RightCurlyBracket; break;
-                    case ' ': result.NextControlSymbol = EnControlSymbol.Space; break;
-                    case '\n': result.NextControlSymbol = EnControlSymbol.EndOfLine; break;
+                    case '{': result.NextControlSymbol = EnControlSymbol.LeftCurlyBracket; exitCycle = true; break;
+                    case '}': result.NextControlSymbol = EnControlSymbol.RightCurlyBracket; exitCycle = true; break;
+                    case ' ': result.NextControlSymbol = EnControlSymbol.Space; exitCycle = true; break;
+                    case '\n': result.NextControlSymbol = EnControlSymbol.EndOfLine; exitCycle = true; break;
                     default : break;
+                }
+
+                if (exitCycle == true)
+                {
+                    break; // exit from cycle
                 }
             }
             if ( i == length-1 ) result.NextControlSymbol = EnControlSymbol.EndOfMessage;
 
-            result.BeforeSubstring = theRestOfTheMessage.Substring(0, i-1);
+            result.BeforeSubstring = theRestOfTheMessage.Substring(0, i);
             result.AfterSubstring = theRestOfTheMessage.Substring(i+1, length-(i+1) );
 
             return result;
@@ -128,12 +144,22 @@ namespace BusinessLogicLayer.Infrastructure
                 // тег уже был начат и это не завершение тега 
                 // тег не был начат и это начало тега
                 if ( (tagStarted == true && currItem.NextControlSymbol != EnControlSymbol.RightCurlyBracket) || 
-                     (tagStarted == false && currItem.NextControlSymbol == EnControlSymbol.LeftCurlyBracket)
+                     (tagStarted == false && currItem.NextControlSymbol == EnControlSymbol.RightCurlyBracket)
                    )
                 {
                     producedEMail += currItem.BeforeSubstring;
-                    column += 1;
-                    string errText = _convEmailErrors.SingleOrDefault(x => x.Id == (int)EnDictionaryValueId.EMailConverterError_TagNotFinishedProperly).Name;
+                    column += currItem.BeforeSubstring.Length;
+
+                    string errText;
+                    if (
+                        currItem.NextControlSymbol == EnControlSymbol.EndOfLine ||
+                        currItem.NextControlSymbol == EnControlSymbol.EndOfMessage ||
+                        currItem.NextControlSymbol == EnControlSymbol.Space
+                    )
+                        errText = _convEmailErrors.SingleOrDefault(x => x.Id == (int)EnDictionaryValueId.EMailConverterError_TagTerminatedBySpaceOrEof).Name;
+                    else
+                        errText = _convEmailErrors.SingleOrDefault(x => x.Id == (int)EnDictionaryValueId.EMailConverterError_TagNotFinishedProperly).Name;
+
                     return new EMailConverterResult(errText, row, column, template, producedEMail);
                 }
                 else
@@ -156,7 +182,25 @@ namespace BusinessLogicLayer.Infrastructure
                         continue;
                     }
 
-                    // попался тег завершения  (и тег не начат)
+                    // нет тегов до пробела, тогда просто переносим кусок строки и добавляем символ пробела (и тег не начат)
+                    if (currItem.NextControlSymbol == EnControlSymbol.Space)
+                    {
+                        producedEMail += currItem.BeforeSubstring;
+                        producedEMail += " "; // так как символ был удален внутри Scan4NextControlSymbol()
+                        column += (currItem.BeforeSubstring.Length + 1);
+                        continue;
+                    }
+
+                    // попался тег начала  (а тег не начат)
+                    if (currItem.NextControlSymbol == EnControlSymbol.LeftCurlyBracket)
+                    {
+                        producedEMail += currItem.BeforeSubstring;
+                        column += (currItem.BeforeSubstring.Length + 1);
+                        tagStarted = true; // начинаем тег
+                        continue;
+                    }
+
+                    // попался тег завершения  (а тег начат)
                     if (currItem.NextControlSymbol == EnControlSymbol.RightCurlyBracket )
                     {
                         int? tagId = ConvertString2TagId(currItem.BeforeSubstring);
@@ -172,7 +216,7 @@ namespace BusinessLogicLayer.Infrastructure
                         {
                             producedEMail += replaceString;
                             column += (currItem.BeforeSubstring.Length + 1);
-                            tagStarted = false;
+                            tagStarted = false; // заканчиваем тег
                             continue;
                         }
                     }

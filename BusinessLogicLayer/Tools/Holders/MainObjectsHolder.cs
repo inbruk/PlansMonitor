@@ -7,8 +7,10 @@ using BusinessLogicLayer.DataTransferObjects;
 using BusinessLogicLayer.DataTransferObjects.Dictionaries;
 using BusinessLogicLayer.DataTransferObjects.Views;
 using BusinessLogicLayer.Tools;
+using BusinessLogicLayer.Tools.Holders;
+using BusinessLogicLayer.Tools.Interfaces;
 
-namespace BusinessLogicLayer.Infrastructure
+namespace BusinessLogicLayer.Tools.Holders
 {
     public static class MainObjectsHolder
     {
@@ -18,11 +20,11 @@ namespace BusinessLogicLayer.Infrastructure
 
         public static Audit CurrentAudit { get { return _currAudit; } }
         public static Remark CurrentRemark { get { return _currRemark; } }
-        public static CorrectiveAction CurrentCorrectiveAction { get { return _currCorrectiveAction; } } 
+        public static CorrectiveAction CurrentCorrectiveAction { get { return _currCorrectiveAction; } }
 
-        private static AuditTool _aTool = new AuditTool();
-        private static RemarkTool _rTool = new RemarkTool();
-        private static CorrectiveActionTool _caTool = new CorrectiveActionTool();
+        private static IAuditTool _aTool = AuditToolHolder.Get();
+        private static IRemarkTool _rTool = RemarkToolHolder.Get();
+        private static ICorrectiveActionTool _caTool = CorrectiveActionToolHolder.Get();
         
         public static void UpdateAuditById( int id) 
         {

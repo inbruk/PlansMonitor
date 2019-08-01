@@ -23,9 +23,9 @@ namespace BusinessLogicLayer.DataTransferObjects.Views
         public string VerficationTermEnd { get; set; }
         public string NumberAndDateLocRegPrepare { get; set; }
         public string NumberAndDateLocRegAcceptance { get; set; }
-        public DateTime? CapmonitoringCompletedOnDate { get; set; }
-        public DateTime? NextCapmonitoringDate { get; set; }
-        public DateTime? CapmonitoringCompleteDate { get; set; }
+        public DateTime? CAPMonitoringCompletedOnDate { get; set; }
+        public DateTime? NextCAPMonitoringDate { get; set; }
+        public DateTime? CAPMonitoringCompleteDate { get; set; }
         public int AuditSubjectPos { get; set; }
         public string AuditSubjectName { get; set; }
         public int MonitoringProgressStatusPos { get; set; }

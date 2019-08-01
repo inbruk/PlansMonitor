@@ -20,8 +20,8 @@ namespace BusinessLogicLayer.Tools.Interfaces
         DTOTbl.Audit Read1(int id);
         void Update1(DTOTbl.Audit dtoItem);
         void Delete1(int id);
-
         int GetViewItemsCount(int? bussProc, int? auditObject, string verifPeriond);
+        DTOVw.Audit Enlist1(int id);
         List<DTOVw.Audit> EnlistView(
             int? bussProc, int? auditObject, string verifPeriond,
             List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs,

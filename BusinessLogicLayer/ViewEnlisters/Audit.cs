@@ -39,9 +39,9 @@ namespace BusinessLogicLayer.ViewEnlisters
                 case (int)EnAudit.VerficationTermEnd: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.VerficationTermEnd);
                 case (int)EnAudit.NumberAndDateLocRegPrepare: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.NumberAndDateLocRegPrepare);
                 case (int)EnAudit.NumberAndDateLocRegAcceptance: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.NumberAndDateLocRegAcceptance);
-                case (int)EnAudit.CapmonitoringCompletedOnDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.CapmonitoringCompletedOnDate);
-                case (int)EnAudit.NextCapmonitoringDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.NextCapmonitoringDate);
-                case (int)EnAudit.CapmonitoringCompleteDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.CapmonitoringCompleteDate);
+                case (int)EnAudit.CAPMonitoringCompletedOnDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.CAPMonitoringCompletedOnDate);
+                case (int)EnAudit.NextCAPMonitoringDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.NextCAPMonitoringDate);
+                case (int)EnAudit.CAPMonitoringCompleteDate: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.CAPMonitoringCompleteDate);
                 case (int)EnAudit.AuditSubjectPos: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.AuditSubjectPos);
                 case (int)EnAudit.AuditSubjectName: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.AuditSubjectName);
                 case (int)EnAudit.MonitoringProgressStatusPos: return GenerateSortQuery(query, isFirstSort, orderDesc.Descending, x => x.MonitoringProgressStatusPos);

@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogicLayer.Tools.Interfaces
 {
-    public interface IEmailTool
+    public interface IEmail
     {
         void Send(string from, string toRecipients, string subject, string body);
         void SendFromDefault(string toRecipients, string subject, string body);

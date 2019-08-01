@@ -22,6 +22,7 @@ namespace BusinessLogicLayer.Tools.Interfaces
         void DeleteN(List<int> idList);
 
         int GetViewItemsCount(int? correctivaActionState, DateTime? startOfActionPeriod, DateTime? endOfActionPeriod);
+        DTOVw.CorrectiveAction Enlist1(int id);
         List<DTOVw.CorrectiveAction> EnlistView(
             int? correctiveActionState, DateTime? startOfActionPeriod, DateTime? endOfActionPeriod,
             List<DTOVw.ViewEnlisterOrderItem4DTO> orderDescs,
