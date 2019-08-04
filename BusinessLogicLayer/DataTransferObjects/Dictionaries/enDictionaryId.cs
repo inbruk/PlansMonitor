@@ -6,7 +6,7 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
 {
     public enum EnDictionaryId
     {
-        Action4AuditLog = 1,
+        Action4AuthAndAuditLog = 1,
         Screen4AuditLog = 2,
         AuditSubject = 3,
         MonitoringProgressStatus = 4,
@@ -18,6 +18,8 @@ namespace BusinessLogicLayer.DataTransferObjects.Dictionaries
         CorrectiveActionStat = 10,
         EMailTemplateType = 11,
         EMailTemplateTag = 12,
-        EMailConvertingError = 13
+        EMailConvertingError = 13,
+        Action4AuditLogOld = 14,
+        BusinessObjectType = 15,
     }
 }
