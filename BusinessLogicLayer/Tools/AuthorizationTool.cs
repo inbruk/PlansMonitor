@@ -17,7 +17,7 @@ using BusinessLogicLayer.Tools.Interfaces;
 
 namespace BusinessLogicLayer.Tools
 {
-    public class AuthorizationTool 
+    public class AuthorizationTool : IAuthorization
     {
         private BLRep.Authorization _repo;
 
