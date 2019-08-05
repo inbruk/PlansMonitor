@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-08-04 12:12:41
+-- Started on 2019-08-05 06:45:57
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -31,9 +31,10 @@ CREATE TABLE public."tblAuditLog" (
     "Id" integer NOT NULL,
     "Time" timestamp with time zone NOT NULL,
     "User" integer NOT NULL,
-    "Screen" integer NOT NULL,
+    "BusinessObject" integer NOT NULL,
     "Action" integer NOT NULL,
-    "Description" character varying(2048) NOT NULL
+    "Description" character varying(2048) NOT NULL,
+    "Screen" integer NOT NULL
 );
 
 
@@ -57,7 +58,7 @@ CREATE TABLE public."tblDictionaryValue" (
 ALTER TABLE public."tblDictionaryValue" OWNER TO postgres;
 
 --
--- TOC entry 2993 (class 0 OID 0)
+-- TOC entry 2995 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: COLUMN "tblDictionaryValue"."Description"; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -106,7 +107,7 @@ CREATE VIEW public."vwAuditLog" AS
     tal."Description"
    FROM (((public."tblAuditLog" tal
      LEFT JOIN public."tblUser" tu ON ((tal."User" = tu."Id")))
-     LEFT JOIN public."tblDictionaryValue" tsc ON (((tal."Screen" = tsc."Position") AND (tsc."Dictionary" = 2))))
+     LEFT JOIN public."tblDictionaryValue" tsc ON (((tal."BusinessObject" = tsc."Position") AND (tsc."Dictionary" = 2))))
      LEFT JOIN public."tblDictionaryValue" tac ON (((tal."Action" = tac."Position") AND (tac."Dictionary" = 1))));
 
 
@@ -255,7 +256,7 @@ END;$$;
 ALTER FUNCTION public."fnFileStorage"(audit integer, "argName" character varying) OWNER TO postgres;
 
 --
--- TOC entry 237 (class 1255 OID 16437)
+-- TOC entry 238 (class 1255 OID 16437)
 -- Name: fnTriInsUpd_tblAudit(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -308,7 +309,7 @@ $$;
 ALTER FUNCTION public."fnTriInsUpd_tblAudit"() OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1255 OID 16438)
+-- TOC entry 243 (class 1255 OID 16438)
 -- Name: fnTriInsUpd_tblAuditLog_Action(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -335,21 +336,38 @@ CREATE FUNCTION public."fnTriInsUpd_tblAuditLog_Action"() RETURNS trigger
             RAISE EXCEPTION 'Словарь с действиями лога аудита поврежден - неуникальные записи';
             RETURN NULL;
         END IF;
-
+       
         -- Проверяем экран в аудите лога
 
         cnt := "fnDictionaryValueCount"( 
-            2, -- Внимание !!! Это ид словаря - Экран в логе аудита.
+            2, -- Внимание !!! Это ид словаря - экран для лога аудита
             NEW."Screen" -- Внимание !!! Это ид элемента словаря 
         );
 
         IF cnt = 0 THEN
-            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом экрана лога аудита';
+            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом экрана';
             RETURN NULL;
         END IF;
 
         IF cnt > 1 THEN
-            RAISE EXCEPTION 'Словарь с экранами лога аудита поврежден - неуникальные записи';
+            RAISE EXCEPTION 'Словарь с экранами поврежден - неуникальные записи';
+            RETURN NULL;
+        END IF;       
+
+        -- Проверяем бизнес объект в аудите лога
+
+        cnt := "fnDictionaryValueCount"( 
+            15, -- Внимание !!! Это ид словаря - Тип бизнес объекта
+            NEW."BusinessObject" -- Внимание !!! Это ид элемента словаря 
+        );
+
+        IF cnt = 0 THEN
+            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом бизнес объекта';
+            RETURN NULL;
+        END IF;
+
+        IF cnt > 1 THEN
+            RAISE EXCEPTION 'Словарь с бизнес объектами поврежден - неуникальные записи';
             RETURN NULL;
         END IF;
 
@@ -359,6 +377,79 @@ $$;
 
 
 ALTER FUNCTION public."fnTriInsUpd_tblAuditLog_Action"() OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1255 OID 16638)
+-- Name: fnTriInsUpd_tblAuthorization_Action(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public."fnTriInsUpd_tblAuthorization_Action"() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE 
+      cnt integer;
+    BEGIN
+
+        -- Проверяем бизнес объект в аудите лога/авторизации
+
+        cnt := "fnDictionaryValueCount"( 
+            15, -- Внимание !!! Это ид словаря - Тип бизнес объекта в логе аудита/авторизации
+            NEW."BusinessObject" -- Внимание !!! Это ид элемента словаря 
+        );
+
+        IF cnt = 0 THEN
+            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом бизнес объекта';
+            RETURN NULL;
+        END IF;
+
+        IF cnt > 1 THEN
+            RAISE EXCEPTION 'Словарь с бизнес объектами поврежден - неуникальные записи';
+            RETURN NULL;
+        END IF;
+	   
+       
+        -- Проверяем действие в аудите лога/авторизации
+
+        cnt := "fnDictionaryValueCount"( 
+            1, -- Внимание !!! Это ид словаря - Действие в логе аудита/авторизации
+            NEW."Action" -- Внимание !!! Это ид элемента словаря 
+        );
+
+        IF cnt = 0 THEN
+            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом действия лога аудита';
+            RETURN NULL;
+        END IF;
+
+        IF cnt > 1 THEN
+            RAISE EXCEPTION 'Словарь с действиями лога аудита поврежден - неуникальные записи';
+            RETURN NULL;
+        END IF;
+
+       
+        -- Проверяем бизнес процесс в авторизации
+
+        cnt := "fnDictionaryValueCount"( 
+            5, -- Внимание !!! Это ид словаря - бизнес процесс в авторизации
+            NEW."BusinessProcess" -- Внимание !!! Это ид элемента словаря 
+        );
+
+        IF cnt = 0 THEN
+            RAISE EXCEPTION 'Попытка создать запись с не существующим ид-ом бизнес процесса';
+            RETURN NULL;
+        END IF;
+
+        IF cnt > 1 THEN
+            RAISE EXCEPTION 'Словарь с бизнес процессами поврежден - неуникальные записи';
+            RETURN NULL;
+        END IF;       
+       
+
+        RETURN NEW;
+    END;
+$$;
+
+
+ALTER FUNCTION public."fnTriInsUpd_tblAuthorization_Action"() OWNER TO postgres;
 
 --
 -- TOC entry 239 (class 1255 OID 16439)
@@ -578,7 +669,7 @@ ALTER TABLE public."tblAuditObject" OWNER TO postgres;
 
 CREATE TABLE public."tblAuthorization" (
     "Id" integer NOT NULL,
-    "BusObjectType" integer NOT NULL,
+    "BusinessObject" integer NOT NULL,
     "Action" integer NOT NULL,
     "BusinessProcess" integer,
     "Permit4UR1Admin" boolean NOT NULL,
@@ -610,7 +701,7 @@ CREATE SEQUENCE public."tblAuthorization_Id_seq1"
 ALTER TABLE public."tblAuthorization_Id_seq1" OWNER TO postgres;
 
 --
--- TOC entry 2994 (class 0 OID 0)
+-- TOC entry 2996 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: tblAuthorization_Id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -970,7 +1061,7 @@ CREATE VIEW public."vwRemark" WITH (security_barrier='false') AS
 ALTER TABLE public."vwRemark" OWNER TO postgres;
 
 --
--- TOC entry 2974 (class 0 OID 16443)
+-- TOC entry 2976 (class 0 OID 16443)
 -- Dependencies: 204
 -- Data for Name: tblAudit; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -981,20 +1072,20 @@ COPY public."tblAudit" ("Id", "Name", "AuditObject", "VerificationPeriodStart", 
 
 
 --
--- TOC entry 2969 (class 0 OID 16394)
+-- TOC entry 2971 (class 0 OID 16394)
 -- Dependencies: 196
 -- Data for Name: tblAuditLog; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."tblAuditLog" ("Id", "Time", "User", "Screen", "Action", "Description") FROM stdin;
-2	2019-07-03 00:00:00+03	1	1	1	фвыаафав
-1	2019-07-04 03:00:00+03	1	1	1	ipugpiupi
-3	2019-07-04 23:00:00+03	1	1	1	во
+COPY public."tblAuditLog" ("Id", "Time", "User", "BusinessObject", "Action", "Description", "Screen") FROM stdin;
+2	2019-07-03 00:00:00+03	1	1	1	фвыаафав	1
+1	2019-07-04 03:00:00+03	1	1	1	ipugpiupi	1
+3	2019-07-04 23:00:00+03	1	1	1	во	1
 \.
 
 
 --
--- TOC entry 2975 (class 0 OID 16449)
+-- TOC entry 2977 (class 0 OID 16449)
 -- Dependencies: 205
 -- Data for Name: tblAuditObject; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1006,12 +1097,12 @@ COPY public."tblAuditObject" ("Id", "Name") FROM stdin;
 
 
 --
--- TOC entry 2987 (class 0 OID 16627)
+-- TOC entry 2989 (class 0 OID 16627)
 -- Dependencies: 221
 -- Data for Name: tblAuthorization; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."tblAuthorization" ("Id", "BusObjectType", "Action", "BusinessProcess", "Permit4UR1Admin", "Permit4UR2IntOperator", "Permit4UR3ExtOperator", "Permit4UR4AuditSuperviser", "Permit4UR5Auditor", "Permit4UR6Controller", "Permit4UR7RespEmployee") FROM stdin;
+COPY public."tblAuthorization" ("Id", "BusinessObject", "Action", "BusinessProcess", "Permit4UR1Admin", "Permit4UR2IntOperator", "Permit4UR3ExtOperator", "Permit4UR4AuditSuperviser", "Permit4UR5Auditor", "Permit4UR6Controller", "Permit4UR7RespEmployee") FROM stdin;
 3	1	2	\N	f	f	f	f	f	f	f
 7	2	1	\N	f	f	f	f	f	f	f
 8	2	2	\N	f	f	f	f	f	f	f
@@ -1054,7 +1145,7 @@ COPY public."tblAuthorization" ("Id", "BusObjectType", "Action", "BusinessProces
 
 
 --
--- TOC entry 2976 (class 0 OID 16452)
+-- TOC entry 2978 (class 0 OID 16452)
 -- Dependencies: 206
 -- Data for Name: tblCorrectiveAction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1065,7 +1156,7 @@ COPY public."tblCorrectiveAction" ("Id", "Audit", "Name", "ExecutiveOfficerFirst
 
 
 --
--- TOC entry 2977 (class 0 OID 16458)
+-- TOC entry 2979 (class 0 OID 16458)
 -- Dependencies: 207
 -- Data for Name: tblDictionary; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1090,7 +1181,7 @@ COPY public."tblDictionary" ("Id", "Name", "EngName4Code", "Description") FROM s
 
 
 --
--- TOC entry 2970 (class 0 OID 16400)
+-- TOC entry 2972 (class 0 OID 16400)
 -- Dependencies: 197
 -- Data for Name: tblDictionaryValue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1211,7 +1302,7 @@ Email уведомление	EmailNotification	7	15	104	\N
 
 
 --
--- TOC entry 2979 (class 0 OID 16466)
+-- TOC entry 2981 (class 0 OID 16466)
 -- Dependencies: 209
 -- Data for Name: tblEmailTemplate; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1221,7 +1312,7 @@ COPY public."tblEmailTemplate" ("Id", "Type", "Template", "Description") FROM st
 
 
 --
--- TOC entry 2972 (class 0 OID 16419)
+-- TOC entry 2974 (class 0 OID 16419)
 -- Dependencies: 200
 -- Data for Name: tblFileStorage; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1231,7 +1322,7 @@ COPY public."tblFileStorage" ("Id", "Name", "Extention", "LoadingTime", "User", 
 
 
 --
--- TOC entry 2980 (class 0 OID 16472)
+-- TOC entry 2982 (class 0 OID 16472)
 -- Dependencies: 210
 -- Data for Name: tblRemark; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1242,7 +1333,7 @@ COPY public."tblRemark" ("Id", "ReportSubsectionNumber", "BusinessProcess", "Rem
 
 
 --
--- TOC entry 2971 (class 0 OID 16406)
+-- TOC entry 2973 (class 0 OID 16406)
 -- Dependencies: 198
 -- Data for Name: tblUser; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1257,7 +1348,7 @@ COPY public."tblUser" ("Id", "FirstName", "LastName", "Patronymic", "Login", "Pa
 
 
 --
--- TOC entry 2973 (class 0 OID 16425)
+-- TOC entry 2975 (class 0 OID 16425)
 -- Dependencies: 201
 -- Data for Name: tblUserRole; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1274,7 +1365,7 @@ COPY public."tblUserRole" ("Id", "Name", "Comment", "IsAuditOjectRestricted") FR
 
 
 --
--- TOC entry 2995 (class 0 OID 0)
+-- TOC entry 2997 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: tblAuthorization_Id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1283,7 +1374,7 @@ SELECT pg_catalog.setval('public."tblAuthorization_Id_seq1"', 67, true);
 
 
 --
--- TOC entry 2996 (class 0 OID 0)
+-- TOC entry 2998 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: tblDictionaryValue_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1292,7 +1383,7 @@ SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 113, true);
 
 
 --
--- TOC entry 2997 (class 0 OID 0)
+-- TOC entry 2999 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: tbl_audit_log_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1301,7 +1392,7 @@ SELECT pg_catalog.setval('public."tbl_audit_log_Id_seq"', 95, true);
 
 
 --
--- TOC entry 2998 (class 0 OID 0)
+-- TOC entry 3000 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: tbl_controlled_society_Id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1310,7 +1401,7 @@ SELECT pg_catalog.setval('public."tbl_controlled_society_Id_seq1"', 1, false);
 
 
 --
--- TOC entry 2999 (class 0 OID 0)
+-- TOC entry 3001 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: tbl_email_template_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1319,7 +1410,7 @@ SELECT pg_catalog.setval('public."tbl_email_template_Id_seq"', 1, false);
 
 
 --
--- TOC entry 3000 (class 0 OID 0)
+-- TOC entry 3002 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: tbl_user_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1328,7 +1419,7 @@ SELECT pg_catalog.setval('public."tbl_user_Id_seq"', 1, false);
 
 
 --
--- TOC entry 3001 (class 0 OID 0)
+-- TOC entry 3003 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: tbl_user_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1337,7 +1428,7 @@ SELECT pg_catalog.setval('public.tbl_user_role_id_seq', 1, false);
 
 
 --
--- TOC entry 2795 (class 2606 OID 16508)
+-- TOC entry 2796 (class 2606 OID 16508)
 -- Name: tblDictionaryValue pk_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1346,7 +1437,7 @@ ALTER TABLE ONLY public."tblDictionaryValue"
 
 
 --
--- TOC entry 2810 (class 2606 OID 16510)
+-- TOC entry 2811 (class 2606 OID 16510)
 -- Name: tblUserRole pk_tbl_user_role_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1355,7 +1446,7 @@ ALTER TABLE ONLY public."tblUserRole"
 
 
 --
--- TOC entry 2824 (class 2606 OID 16636)
+-- TOC entry 2825 (class 2606 OID 16636)
 -- Name: tblAuthorization tblAuthorization_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1364,7 +1455,7 @@ ALTER TABLE ONLY public."tblAuthorization"
 
 
 --
--- TOC entry 2816 (class 2606 OID 16512)
+-- TOC entry 2817 (class 2606 OID 16512)
 -- Name: tblCorrectiveAction tblCorrectiveAction _pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1373,7 +1464,7 @@ ALTER TABLE ONLY public."tblCorrectiveAction"
 
 
 --
--- TOC entry 2818 (class 2606 OID 16514)
+-- TOC entry 2819 (class 2606 OID 16514)
 -- Name: tblDictionary tblDictionary_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1382,7 +1473,7 @@ ALTER TABLE ONLY public."tblDictionary"
 
 
 --
--- TOC entry 2820 (class 2606 OID 16516)
+-- TOC entry 2821 (class 2606 OID 16516)
 -- Name: tblEmailTemplate tblEmailTemplate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1391,7 +1482,7 @@ ALTER TABLE ONLY public."tblEmailTemplate"
 
 
 --
--- TOC entry 2788 (class 2606 OID 16518)
+-- TOC entry 2789 (class 2606 OID 16518)
 -- Name: tblAuditLog tbl_audit_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1400,7 +1491,7 @@ ALTER TABLE ONLY public."tblAuditLog"
 
 
 --
--- TOC entry 2812 (class 2606 OID 16520)
+-- TOC entry 2813 (class 2606 OID 16520)
 -- Name: tblAudit tbl_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1409,7 +1500,7 @@ ALTER TABLE ONLY public."tblAudit"
 
 
 --
--- TOC entry 2814 (class 2606 OID 16522)
+-- TOC entry 2815 (class 2606 OID 16522)
 -- Name: tblAuditObject tbl_controlled_society_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1418,7 +1509,7 @@ ALTER TABLE ONLY public."tblAuditObject"
 
 
 --
--- TOC entry 2802 (class 2606 OID 16524)
+-- TOC entry 2803 (class 2606 OID 16524)
 -- Name: tblFileStorage tbl_file_storage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1427,7 +1518,7 @@ ALTER TABLE ONLY public."tblFileStorage"
 
 
 --
--- TOC entry 2822 (class 2606 OID 16526)
+-- TOC entry 2823 (class 2606 OID 16526)
 -- Name: tblRemark tbl_remark_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1436,7 +1527,7 @@ ALTER TABLE ONLY public."tblRemark"
 
 
 --
--- TOC entry 2799 (class 2606 OID 16528)
+-- TOC entry 2800 (class 2606 OID 16528)
 -- Name: tblUser tbl_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1445,7 +1536,7 @@ ALTER TABLE ONLY public."tblUser"
 
 
 --
--- TOC entry 2797 (class 2606 OID 16530)
+-- TOC entry 2798 (class 2606 OID 16530)
 -- Name: tblDictionaryValue uk_Dictionary_Position; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1454,7 +1545,7 @@ ALTER TABLE ONLY public."tblDictionaryValue"
 
 
 --
--- TOC entry 2789 (class 1259 OID 16531)
+-- TOC entry 2790 (class 1259 OID 16531)
 -- Name: tblauditlog_action_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1462,15 +1553,15 @@ CREATE INDEX tblauditlog_action_idx ON public."tblAuditLog" USING btree ("Action
 
 
 --
--- TOC entry 2790 (class 1259 OID 16532)
+-- TOC entry 2791 (class 1259 OID 16532)
 -- Name: tblauditlog_screen_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX tblauditlog_screen_idx ON public."tblAuditLog" USING btree ("Screen");
+CREATE INDEX tblauditlog_screen_idx ON public."tblAuditLog" USING btree ("BusinessObject");
 
 
 --
--- TOC entry 2791 (class 1259 OID 16533)
+-- TOC entry 2792 (class 1259 OID 16533)
 -- Name: tblauditlog_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1478,7 +1569,7 @@ CREATE INDEX tblauditlog_time_idx ON public."tblAuditLog" USING btree ("Time");
 
 
 --
--- TOC entry 2792 (class 1259 OID 16534)
+-- TOC entry 2793 (class 1259 OID 16534)
 -- Name: tblauditlog_user_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1486,7 +1577,7 @@ CREATE INDEX tblauditlog_user_idx ON public."tblAuditLog" USING btree ("User");
 
 
 --
--- TOC entry 2793 (class 1259 OID 16535)
+-- TOC entry 2794 (class 1259 OID 16535)
 -- Name: tblauditlog_usertime_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1494,7 +1585,7 @@ CREATE INDEX tblauditlog_usertime_idx ON public."tblAuditLog" USING btree ("User
 
 
 --
--- TOC entry 2803 (class 1259 OID 16536)
+-- TOC entry 2804 (class 1259 OID 16536)
 -- Name: tblfilestorage_aextention_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1502,7 +1593,7 @@ CREATE INDEX tblfilestorage_aextention_idx ON public."tblFileStorage" USING btre
 
 
 --
--- TOC entry 2804 (class 1259 OID 16537)
+-- TOC entry 2805 (class 1259 OID 16537)
 -- Name: tblfilestorage_altime_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1510,7 +1601,7 @@ CREATE INDEX tblfilestorage_altime_idx ON public."tblFileStorage" USING btree ("
 
 
 --
--- TOC entry 2805 (class 1259 OID 16538)
+-- TOC entry 2806 (class 1259 OID 16538)
 -- Name: tblfilestorage_aname_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1518,7 +1609,7 @@ CREATE INDEX tblfilestorage_aname_idx ON public."tblFileStorage" USING btree ("A
 
 
 --
--- TOC entry 2806 (class 1259 OID 16539)
+-- TOC entry 2807 (class 1259 OID 16539)
 -- Name: tblfilestorage_anamext_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1526,7 +1617,7 @@ CREATE INDEX tblfilestorage_anamext_idx ON public."tblFileStorage" USING btree (
 
 
 --
--- TOC entry 2807 (class 1259 OID 16540)
+-- TOC entry 2808 (class 1259 OID 16540)
 -- Name: tblfilestorage_audit_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1534,7 +1625,7 @@ CREATE INDEX tblfilestorage_audit_idx ON public."tblFileStorage" USING btree ("A
 
 
 --
--- TOC entry 2808 (class 1259 OID 16541)
+-- TOC entry 2809 (class 1259 OID 16541)
 -- Name: tblfilestorage_auser_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1542,7 +1633,7 @@ CREATE INDEX tblfilestorage_auser_idx ON public."tblFileStorage" USING btree ("A
 
 
 --
--- TOC entry 2800 (class 1259 OID 16542)
+-- TOC entry 2801 (class 1259 OID 16542)
 -- Name: tbluser_firstname_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1550,7 +1641,7 @@ CREATE UNIQUE INDEX tbluser_firstname_idx ON public."tblUser" USING btree ("Firs
 
 
 --
--- TOC entry 2837 (class 2620 OID 16543)
+-- TOC entry 2838 (class 2620 OID 16543)
 -- Name: tblAudit triInsUpd_tblAudit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1558,7 +1649,7 @@ CREATE TRIGGER "triInsUpd_tblAudit" BEFORE INSERT OR UPDATE ON public."tblAudit"
 
 
 --
--- TOC entry 2836 (class 2620 OID 16544)
+-- TOC entry 2837 (class 2620 OID 16544)
 -- Name: tblAuditLog triInsUpd_tblAuditLog_Action; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1566,7 +1657,7 @@ CREATE TRIGGER "triInsUpd_tblAuditLog_Action" BEFORE INSERT OR UPDATE ON public.
 
 
 --
--- TOC entry 2838 (class 2620 OID 16545)
+-- TOC entry 2839 (class 2620 OID 16545)
 -- Name: tblCorrectiveAction triInsUpd_tblCorrectiveAction; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1574,7 +1665,7 @@ CREATE TRIGGER "triInsUpd_tblCorrectiveAction" BEFORE INSERT OR UPDATE ON public
 
 
 --
--- TOC entry 2839 (class 2620 OID 16546)
+-- TOC entry 2840 (class 2620 OID 16546)
 -- Name: tblEmailTemplate triInsUpd_tblEmailTemplate; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1582,7 +1673,7 @@ CREATE TRIGGER "triInsUpd_tblEmailTemplate" BEFORE INSERT OR UPDATE ON public."t
 
 
 --
--- TOC entry 2840 (class 2620 OID 16547)
+-- TOC entry 2841 (class 2620 OID 16547)
 -- Name: tblRemark triInsUpd_tblRemark; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1590,7 +1681,15 @@ CREATE TRIGGER "triInsUpd_tblRemark" BEFORE INSERT OR UPDATE ON public."tblRemar
 
 
 --
--- TOC entry 2833 (class 2606 OID 16548)
+-- TOC entry 2842 (class 2620 OID 16639)
+-- Name: tblAuthorization triinsupd_tblauthorization; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER triinsupd_tblauthorization BEFORE INSERT OR UPDATE ON public."tblAuthorization" FOR EACH ROW EXECUTE PROCEDURE public."fnTriInsUpd_tblAuthorization_Action"();
+
+
+--
+-- TOC entry 2834 (class 2606 OID 16548)
 -- Name: tblCorrectiveAction fk_CorrAction_Audit; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1599,7 +1698,7 @@ ALTER TABLE ONLY public."tblCorrectiveAction"
 
 
 --
--- TOC entry 2830 (class 2606 OID 16553)
+-- TOC entry 2831 (class 2606 OID 16553)
 -- Name: tblAudit fk_audit_audit_object; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1608,7 +1707,7 @@ ALTER TABLE ONLY public."tblAudit"
 
 
 --
--- TOC entry 2825 (class 2606 OID 16558)
+-- TOC entry 2826 (class 2606 OID 16558)
 -- Name: tblAuditLog fk_audit_log_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1617,7 +1716,7 @@ ALTER TABLE ONLY public."tblAuditLog"
 
 
 --
--- TOC entry 2831 (class 2606 OID 16563)
+-- TOC entry 2832 (class 2606 OID 16563)
 -- Name: tblAudit fk_audit_resp_employee; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1626,7 +1725,7 @@ ALTER TABLE ONLY public."tblAudit"
 
 
 --
--- TOC entry 2832 (class 2606 OID 16568)
+-- TOC entry 2833 (class 2606 OID 16568)
 -- Name: tblAudit fk_audit_superviser; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1635,7 +1734,7 @@ ALTER TABLE ONLY public."tblAudit"
 
 
 --
--- TOC entry 2826 (class 2606 OID 16573)
+-- TOC entry 2827 (class 2606 OID 16573)
 -- Name: tblDictionaryValue fk_dicvalue_dic; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1644,7 +1743,7 @@ ALTER TABLE ONLY public."tblDictionaryValue"
 
 
 --
--- TOC entry 2829 (class 2606 OID 16578)
+-- TOC entry 2830 (class 2606 OID 16578)
 -- Name: tblFileStorage fk_fileStorage_audit; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1653,7 +1752,7 @@ ALTER TABLE ONLY public."tblFileStorage"
 
 
 --
--- TOC entry 2834 (class 2606 OID 16583)
+-- TOC entry 2835 (class 2606 OID 16583)
 -- Name: tblRemark fk_remark_resp_contr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1662,7 +1761,7 @@ ALTER TABLE ONLY public."tblRemark"
 
 
 --
--- TOC entry 2835 (class 2606 OID 16588)
+-- TOC entry 2836 (class 2606 OID 16588)
 -- Name: tblRemark fk_remark_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1671,7 +1770,7 @@ ALTER TABLE ONLY public."tblRemark"
 
 
 --
--- TOC entry 2827 (class 2606 OID 16593)
+-- TOC entry 2828 (class 2606 OID 16593)
 -- Name: tblUser fk_tbl_user_role; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1680,7 +1779,7 @@ ALTER TABLE ONLY public."tblUser"
 
 
 --
--- TOC entry 2828 (class 2606 OID 16598)
+-- TOC entry 2829 (class 2606 OID 16598)
 -- Name: tblUser fk_tbl_verification_object; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1688,7 +1787,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-08-04 12:12:44
+-- Completed on 2019-08-05 06:46:00
 
 --
 -- PostgreSQL database dump complete
