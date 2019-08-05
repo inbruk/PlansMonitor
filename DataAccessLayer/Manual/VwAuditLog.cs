@@ -18,6 +18,8 @@ namespace DataAccessLayer
         public string ScreenName { get; set; }
         public int ActionPos { get; set; }
         public string ActionName { get; set; }
+        public int BusinessObjectPos { get; set; }
+        public string BusinessObjectName { get; set; }
         public string Description { get; set; }
     }
 }

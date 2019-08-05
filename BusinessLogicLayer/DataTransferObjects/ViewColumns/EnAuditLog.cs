@@ -16,6 +16,8 @@ namespace BusinessLogicLayer.DataTransferObjects.ViewColumns
         ScreenName = 8,
         ActionPos = 9,
         ActionName = 10,
-        Description = 11
+        BusinessObjectPos = 11,
+        BusinessObjectName = 12,
+        Description = 13
     }
 }

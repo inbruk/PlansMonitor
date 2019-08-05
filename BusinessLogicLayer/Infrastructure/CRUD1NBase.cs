@@ -50,7 +50,7 @@ namespace BusinessLogicLayer.Infrastructure
             }
         }
 
-        protected List<DTO> ReadN(Expression<Func<TBL, bool>> predicate)
+        public List<DTO> ReadN(Expression<Func<TBL, bool>> predicate)
         {
             List<TBL> listOfProxy = CurrDBCtx.Set<TBL>().Where(predicate).ToList();
             List<DTO> result = mapper.Map<List<TBL>, List<DTO>>(listOfProxy);
@@ -58,7 +58,7 @@ namespace BusinessLogicLayer.Infrastructure
         }
 
         // подразумевается что id-ы при update не изменяются !!!
-        private void UpdateN(List<DTO> updDTOList, Expression<Func<TBL, bool>> predicate)
+        public void UpdateN(List<DTO> updDTOList, Expression<Func<TBL, bool>> predicate)
         {
             try
             {

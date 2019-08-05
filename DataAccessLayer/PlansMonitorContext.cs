@@ -18,6 +18,7 @@ namespace DataAccessLayer
         public virtual DbSet<TblAudit> TblAudit { get; set; }
         public virtual DbSet<TblAuditLog> TblAuditLog { get; set; }
         public virtual DbSet<TblAuditObject> TblAuditObject { get; set; }
+        public virtual DbSet<TblAuthorization> TblAuthorization { get; set; }
         public virtual DbSet<TblCorrectiveAction> TblCorrectiveAction { get; set; }
         public virtual DbSet<TblDictionary> TblDictionary { get; set; }
         public virtual DbSet<TblDictionaryValue> TblDictionaryValue { get; set; }
@@ -126,7 +127,7 @@ namespace DataAccessLayer
                 entity.HasIndex(e => e.Action)
                     .HasName("tblauditlog_action_idx");
 
-                entity.HasIndex(e => e.Screen)
+                entity.HasIndex(e => e.BusinessObject)
                     .HasName("tblauditlog_screen_idx");
 
                 entity.HasIndex(e => e.Time)
@@ -162,6 +163,27 @@ namespace DataAccessLayer
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<TblAuthorization>(entity =>
+            {
+                entity.ToTable("tblAuthorization");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Permit4Ur1admin).HasColumnName("Permit4UR1Admin");
+
+                entity.Property(e => e.Permit4Ur2intOperator).HasColumnName("Permit4UR2IntOperator");
+
+                entity.Property(e => e.Permit4Ur3extOperator).HasColumnName("Permit4UR3ExtOperator");
+
+                entity.Property(e => e.Permit4Ur4auditSuperviser).HasColumnName("Permit4UR4AuditSuperviser");
+
+                entity.Property(e => e.Permit4Ur5auditor).HasColumnName("Permit4UR5Auditor");
+
+                entity.Property(e => e.Permit4Ur6controller).HasColumnName("Permit4UR6Controller");
+
+                entity.Property(e => e.Permit4Ur7respEmployee).HasColumnName("Permit4UR7RespEmployee");
             });
 
             modelBuilder.Entity<TblCorrectiveAction>(entity =>
@@ -451,6 +473,8 @@ namespace DataAccessLayer
                     .IsRequired()
                     .HasMaxLength(64);
             });
+
+            modelBuilder.HasSequence<int>("tblAuthorization_Id_seq1");
         }
     }
 }
