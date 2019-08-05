@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-08-05 06:45:57
+-- Started on 2019-08-05 11:55:42
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -104,11 +104,14 @@ CREATE VIEW public."vwAuditLog" AS
     tsc."Name" AS "ScreenName",
     tac."Position" AS "ActionPos",
     tac."Name" AS "ActionName",
-    tal."Description"
-   FROM (((public."tblAuditLog" tal
+    tal."Description",
+    tbo."Position" AS "BusinessObjectPos",
+    tbo."Name" AS "BusinessObjectName"
+   FROM ((((public."tblAuditLog" tal
      LEFT JOIN public."tblUser" tu ON ((tal."User" = tu."Id")))
      LEFT JOIN public."tblDictionaryValue" tsc ON (((tal."BusinessObject" = tsc."Position") AND (tsc."Dictionary" = 2))))
-     LEFT JOIN public."tblDictionaryValue" tac ON (((tal."Action" = tac."Position") AND (tac."Dictionary" = 1))));
+     LEFT JOIN public."tblDictionaryValue" tac ON (((tal."Action" = tac."Position") AND (tac."Dictionary" = 1))))
+     LEFT JOIN public."tblDictionaryValue" tbo ON (((tal."BusinessObject" = tbo."Position") AND (tbo."Dictionary" = 5))));
 
 
 ALTER TABLE public."vwAuditLog" OWNER TO postgres;
@@ -256,7 +259,7 @@ END;$$;
 ALTER FUNCTION public."fnFileStorage"(audit integer, "argName" character varying) OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1255 OID 16437)
+-- TOC entry 237 (class 1255 OID 16437)
 -- Name: fnTriInsUpd_tblAudit(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -379,7 +382,7 @@ $$;
 ALTER FUNCTION public."fnTriInsUpd_tblAuditLog_Action"() OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1255 OID 16638)
+-- TOC entry 238 (class 1255 OID 16638)
 -- Name: fnTriInsUpd_tblAuthorization_Action(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -427,6 +430,10 @@ CREATE FUNCTION public."fnTriInsUpd_tblAuthorization_Action"() RETURNS trigger
 
        
         -- Проверяем бизнес процесс в авторизации
+        
+        if NEW."BusinessProcess" is null then -- null здесь валидное значение
+        	RETURN NEW; 
+        end if;
 
         cnt := "fnDictionaryValueCount"( 
             5, -- Внимание !!! Это ид словаря - бизнес процесс в авторизации
@@ -1103,9 +1110,6 @@ COPY public."tblAuditObject" ("Id", "Name") FROM stdin;
 --
 
 COPY public."tblAuthorization" ("Id", "BusinessObject", "Action", "BusinessProcess", "Permit4UR1Admin", "Permit4UR2IntOperator", "Permit4UR3ExtOperator", "Permit4UR4AuditSuperviser", "Permit4UR5Auditor", "Permit4UR6Controller", "Permit4UR7RespEmployee") FROM stdin;
-3	1	2	\N	f	f	f	f	f	f	f
-7	2	1	\N	f	f	f	f	f	f	f
-8	2	2	\N	f	f	f	f	f	f	f
 9	2	3	\N	f	f	f	f	f	f	f
 10	2	4	\N	f	f	f	f	f	f	f
 12	3	1	\N	f	f	f	f	f	f	f
@@ -1141,6 +1145,9 @@ COPY public."tblAuthorization" ("Id", "BusinessObject", "Action", "BusinessProce
 60	16	1	\N	f	f	f	f	f	f	f
 64	7	1	\N	f	f	f	f	f	f	f
 4	1	4	\N	f	f	f	f	f	f	f
+3	1	2	\N	t	f	f	f	f	f	f
+7	2	1	1	f	t	f	f	f	f	f
+8	2	2	2	t	f	f	f	f	f	f
 \.
 
 
@@ -1787,7 +1794,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-08-05 06:46:00
+-- Completed on 2019-08-05 11:55:44
 
 --
 -- PostgreSQL database dump complete
