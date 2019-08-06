@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
--- Started on 2019-08-05 11:55:42
+-- Started on 2019-08-06 13:47:32
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1110,44 +1110,93 @@ COPY public."tblAuditObject" ("Id", "Name") FROM stdin;
 --
 
 COPY public."tblAuthorization" ("Id", "BusinessObject", "Action", "BusinessProcess", "Permit4UR1Admin", "Permit4UR2IntOperator", "Permit4UR3ExtOperator", "Permit4UR4AuditSuperviser", "Permit4UR5Auditor", "Permit4UR6Controller", "Permit4UR7RespEmployee") FROM stdin;
-9	2	3	\N	f	f	f	f	f	f	f
-10	2	4	\N	f	f	f	f	f	f	f
-12	3	1	\N	f	f	f	f	f	f	f
-13	3	2	\N	f	f	f	f	f	f	f
-14	3	3	\N	f	f	f	f	f	f	f
-15	3	4	\N	f	f	f	f	f	f	f
-16	4	1	\N	f	f	f	f	f	f	f
-17	4	2	\N	f	f	f	f	f	f	f
-18	4	3	\N	f	f	f	f	f	f	f
-19	4	4	\N	f	f	f	f	f	f	f
-20	5	1	\N	f	f	f	f	f	f	f
-21	5	2	\N	f	f	f	f	f	f	f
-23	5	4	\N	f	f	f	f	f	f	f
-24	6	1	\N	f	f	f	f	f	f	f
-25	6	2	\N	f	f	f	f	f	f	f
-27	6	4	\N	f	f	f	f	f	f	f
-28	8	1	\N	f	f	f	f	f	f	f
-29	8	2	\N	f	f	f	f	f	f	f
-30	8	3	\N	f	f	f	f	f	f	f
-32	9	1	\N	f	f	f	f	f	f	f
-33	9	2	\N	f	f	f	f	f	f	f
-34	9	3	\N	f	f	f	f	f	f	f
-35	9	4	\N	f	f	f	f	f	f	f
-36	10	1	\N	f	f	f	f	f	f	f
-37	10	2	\N	f	f	f	f	f	f	f
-39	10	4	\N	f	f	f	f	f	f	f
-40	11	1	\N	f	f	f	f	f	f	f
-44	12	1	\N	f	f	f	f	f	f	f
-45	12	2	\N	f	f	f	f	f	f	f
-48	13	1	\N	f	f	f	f	f	f	f
-52	14	1	\N	f	f	f	f	f	f	f
-56	15	1	\N	f	f	f	f	f	f	f
-60	16	1	\N	f	f	f	f	f	f	f
+23	5	4	1	t	t	f	f	f	f	f
+70	5	4	2	t	f	t	f	f	f	f
+74	3	4	2	f	f	f	f	f	f	f
+101	19	1	1	t	t	f	t	t	f	f
+102	19	1	2	t	f	t	f	f	t	t
+104	20	1	1	t	t	f	t	t	f	f
+15	3	4	1	f	f	f	f	f	f	f
+12	3	1	1	t	t	f	t	f	f	f
+71	3	1	2	t	f	t	f	f	f	f
+13	3	2	1	t	t	f	t	f	f	f
+72	3	2	2	t	f	t	f	f	f	f
+14	3	3	1	t	t	f	t	f	f	t
+73	3	3	2	t	f	t	f	f	f	t
+75	12	1	2	t	f	t	f	f	t	t
+76	12	2	2	t	f	t	f	f	t	t
+44	12	1	1	t	t	f	t	t	f	f
+45	12	2	1	t	t	f	t	t	f	f
+77	13	1	2	t	f	t	f	f	t	t
+48	13	1	1	t	t	f	t	t	f	f
+105	20	1	2	t	f	t	f	f	t	t
+52	14	1	1	t	t	f	t	t	f	f
+78	14	1	2	t	f	t	f	f	t	t
 64	7	1	\N	f	f	f	f	f	f	f
-4	1	4	\N	f	f	f	f	f	f	f
-3	1	2	\N	t	f	f	f	f	f	f
-7	2	1	1	f	t	f	f	f	f	f
-8	2	2	2	t	f	f	f	f	f	f
+106	20	2	1	t	t	f	t	t	f	f
+16	4	1	1	t	t	f	t	t	f	f
+79	4	1	2	t	f	t	f	f	t	t
+80	4	2	2	t	f	t	t	f	t	t
+17	4	2	1	t	t	f	f	t	f	f
+81	4	3	2	t	f	f	f	f	f	t
+18	4	3	1	t	f	f	f	f	f	t
+82	4	4	2	t	f	f	f	f	f	t
+19	4	4	1	t	f	f	f	f	f	t
+4	1	4	1	t	f	f	f	f	f	f
+3	1	2	1	t	t	f	t	t	f	f
+62	1	4	2	t	f	f	f	f	f	f
+61	1	2	2	t	f	t	f	f	t	t
+40	11	1	1	t	t	f	t	t	f	f
+63	11	1	2	t	f	t	f	f	t	t
+8	2	2	1	t	t	f	t	t	f	f
+107	20	2	2	t	f	t	f	f	t	t
+65	2	2	2	t	f	t	f	f	t	t
+108	20	3	1	t	t	f	t	t	f	f
+109	20	3	2	t	f	t	f	f	t	t
+7	2	1	1	t	t	f	f	f	f	f
+66	2	1	2	t	f	t	f	f	f	f
+67	2	3	2	t	f	t	f	f	f	f
+9	2	3	1	t	t	f	f	f	f	f
+24	6	1	1	t	t	f	t	t	f	f
+83	6	1	2	t	f	t	f	f	t	t
+25	6	2	1	t	t	f	f	f	f	f
+20	5	1	1	t	t	f	t	t	f	f
+68	5	1	2	t	f	t	f	f	t	t
+21	5	2	1	t	t	f	t	t	f	f
+69	5	2	2	t	f	t	f	f	t	t
+110	20	4	1	t	t	f	t	t	f	f
+84	6	2	2	t	f	t	f	f	f	f
+27	6	4	1	t	t	f	f	f	f	f
+85	6	4	2	t	f	t	f	f	f	f
+111	20	4	2	t	f	t	f	f	t	t
+113	10	1	2	t	t	t	t	t	t	t
+114	10	2	2	t	t	t	t	t	t	t
+28	8	1	1	t	f	f	f	f	f	f
+86	8	1	2	t	f	f	f	f	f	f
+29	8	2	1	t	f	f	f	f	f	f
+87	8	2	2	t	f	f	f	f	f	f
+30	8	3	1	t	f	f	f	f	f	f
+88	8	3	2	t	f	f	f	f	f	f
+115	10	4	2	t	f	f	f	f	f	f
+36	10	1	1	t	t	t	t	t	t	t
+37	10	2	1	t	t	t	t	t	t	t
+39	10	4	1	t	f	f	f	f	f	f
+32	9	1	1	t	t	f	t	t	f	f
+89	9	1	2	t	f	t	f	f	t	t
+33	9	2	1	t	t	f	t	t	f	f
+90	9	2	2	t	f	t	f	f	t	t
+34	9	3	1	t	t	f	t	t	f	f
+91	9	3	2	t	f	t	f	f	t	t
+35	9	4	1	t	t	f	t	t	f	f
+92	9	4	2	t	f	t	f	f	t	t
+93	17	1	1	t	t	f	t	t	f	f
+94	17	1	2	t	f	t	f	f	t	t
+95	15	1	1	t	t	f	t	t	f	f
+96	15	1	2	t	f	t	f	f	t	t
+97	16	1	1	t	t	f	f	f	f	f
+98	16	1	2	t	t	f	f	f	f	f
+99	18	1	1	t	t	t	f	f	f	f
+100	18	1	2	t	t	t	f	f	f	f
 \.
 
 
@@ -1195,8 +1244,6 @@ COPY public."tblDictionary" ("Id", "Name", "EngName4Code", "Description") FROM s
 
 COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionary", "Id", "Description") FROM stdin;
 СВА	SVA	1	3	1	\N
-Пост-контроль для внешних проверок	PostControl4ExternalAudits	2	5	2	\N
-Пост-контроль для внутренних проверок	PostControl4InternalAudits	1	5	3	\N
 Умеренная	Moderate	1	6	4	\N
 Значимая	Significant	2	6	5	\N
 Нарушение	Violation	1	7	6	\N
@@ -1269,6 +1316,8 @@ COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionar
 Изменение пароля	ChangePassword	8	14	53	\N
 Поиск	Find	18	14	54	\N
 Просмотр файлов	ViewingFiles	19	14	55	\N
+Пост-контроль для внешних проверок	PostControl4ExternalAudits	2	5	2	Внешняя
+Пост-контроль для внутренних проверок	PostControl4InternalAudits	1	5	3	Внутренняя
 ЗамечаниеВнуП.ПодраздОтчета	EMailTemplateTag4RemarkInternalAudit_ReportSubsNum	5	12	77	№ подраздела отчета
 ЗамечаниеВнуП.Описание	EMailTemplateTag4RemarkInternalAudit_Description	6	12	79	Описание замечания
 ЗамечаниеВнеП.РазделПрил	EMailTemplateTag4RemarkExternalAudit_SectAttach	7	12	80	Раздел/приложение
@@ -1289,8 +1338,6 @@ COPY public."tblDictionaryValue" ("Name", "EngName4Code", "Position", "Dictionar
 Просмотр	Read	2	1	95	\N
 Редактирование	Update	3	1	96	\N
 Удаление	Delete	4	1	97	\N
-Аудит общий 	AuditCommon	1	15	98	\N
-Аудит	Audit	2	15	99	\N
 Замечание	Remark	3	15	100	\N
 Корректирующее мероприятие	CorrectiveAction	4	15	101	\N
 Файл относящийся к проверке	AuditFile	5	15	102	\N
@@ -1300,11 +1347,17 @@ Email уведомление	EmailNotification	7	15	104	\N
 Шаблон письма	EmailTemplate	9	15	106	\N
 Событие в журнале аудита	AuditLogEvent	10	15	107	\N
 ПКМ в Excel файле	ExcelCorrectiveActionPlan	13	15	110	\N
-Списк общих аудитов в Excel файле	ExcelAuditCommon	11	15	108	\N
 Сводная таблица в Excel файле	ExcelPivotTable	12	15	109	\N
 Отчет об исполнении ПКМ в Excel файле	ExcelPCAExecution	14	15	111	\N
 Результаты глобального поиска в Excel файле	ExcelGlobalSearchResult	15	15	112	\N
 Статистика	Statistics	16	15	113	\N
+Результаты глобального поиска	GlobalSearchResult	17	15	114	\N
+Письмо - Запрос РП	EmailRequestRP	18	15	115	\N
+Письмо - Запрос объекту проверки	EmailRequest2AuditObject	19	15	116	\N
+Комментарий к Мероприятию	Comment2CorrectiveAction	20	15	117	\N
+Список общих аудитов в Excel файле	ExcelAuditCommon	11	15	108	\N
+Проверка общая	AuditCommon	1	15	98	\N
+Проверка	Audit	2	15	99	\N
 \.
 
 
@@ -1386,7 +1439,7 @@ SELECT pg_catalog.setval('public."tblAuthorization_Id_seq1"', 67, true);
 -- Name: tblDictionaryValue_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 113, true);
+SELECT pg_catalog.setval('public."tblDictionaryValue_Id_seq"', 117, true);
 
 
 --
@@ -1794,7 +1847,7 @@ ALTER TABLE ONLY public."tblUser"
     ADD CONSTRAINT fk_tbl_verification_object FOREIGN KEY ("VerificationObject") REFERENCES public."tblAuditObject"("Id");
 
 
--- Completed on 2019-08-05 11:55:44
+-- Completed on 2019-08-06 13:47:34
 
 --
 -- PostgreSQL database dump complete
