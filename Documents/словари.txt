@@ -1,0 +1,170 @@
+Эти словари надо заполнить значениями. Я не смогу по ТЗ их заполнить, там этого нет, да и правильно ли я угадаю значеие.
+Значения надо пронумеровать чтобы понятно было в какой сортировке показывать их.
+
+СЛОВАРЬ 1. Действие в логе аудита (см. стр 58) ?
+
+
+СЛОВАРЬ 2. Экран в логе аудита (см. стр 58) ?
+
+
+СЛОВАРЬ 3. Субъект аудита для проверки 
+Значения этого словаря известны - заполнять не нужно
+
+СЛОВАРЬ 4. Статус проведения мониторинга (см. стр. 13) ?
+
+СЛОВАРЬ 5. Бизнес процесс. Значения этого словаря известны, но нужно их проверить. Есть только эти два значения ?
+  1. Пост-контроль для внутренних проверок
+  2. Пост-контроль для внешних проверок
+
+СЛОВАРЬ 6. Итоговый уровень оценки 
+Значения этого словаря известны - заполнять не нужно
+
+СЛОВАРЬ 7. Тип замечания 
+Значения этого словаря известны - заполнять не нужно
+
+СЛОВАРЬ 8. Отметка Объекта проверки о выполнении мероприятия 
+Значения этого словаря известны - заполнять не нужно
+
+СЛОВАРЬ 9. Оценка эффективности выполнения мероприятия  (см. стр. 28) ?
+
+-------------------------
+
+ SELECT tr."Id",
+    tr."ReportSubsectionNumber",
+    tr."RemarkType",
+    tr."RemarkDescription",
+    tr."RevealedRemarkReason",
+    tr."RevealedRemarkConsequences",
+    tr."QuantitativeAssessmentLossesRealized",
+    tr."QuantitativeAssessmentPotentialLosses",
+    tr."QuantitativeAssessmentTotalLoss",
+    tr."QualitativeAssessment",
+    tr."ResponsibleAuditor",
+    tr."TotalAssessmentLevel",
+    tr."PersonCMRecommendations",
+    tr."PageNumber",
+    tr."SectionAttachment",
+    tr."ViolationContent",
+    tr."ViolationValuation",
+    tr."AuditObjectComments",
+    tr."AuditObjectFinalAssessment",
+    tr."ViolationsAndDeficienciesCauses",
+
+    ta."Id" AS "ResponsibleAuditorId",
+    ta."FirstName" AS "ResponsibleAuditorFirstName",
+    ta."LastName" AS "ResponsibleAuditorLastName",
+    ta."Patronymic" AS "ResponsibleAuditorPatronymic",
+
+    tc."Id" AS "ResponsibleControllerId",
+    tc."FirstName" AS "ResponsibleControllerFirstName",
+    tc."LastName" AS "ResponsibleControllerLastName",
+    tc."Patronymic" AS "ResponsibleControllerPatronymic",
+
+    tbp."Id" AS "BusinessProcessId",
+    tbp."Name" AS "BusinessProcessName",
+
+    tbp."Id" AS "TotalAssessmentLevelId",
+    tbp."Name" AS "TotalAssessmentLevelName",
+
+    tbp."Id" AS "RemarkTypeId",
+    tbp."Name" AS "RemarkTypeName"
+
+   FROM "tblRemark" tr
+     LEFT JOIN "tblUser" ta ON tr."ResponsibleAuditor" = ta."Id"
+     LEFT JOIN "tblUser" tc ON tr."ResponsibleController" = tc."Id"
+     LEFT JOIN "tblDictionaryValue" tbp ON (tr."BusinessProcess" = tbp."Position" AND tbp."Dictionary" = 5)
+     LEFT JOIN "tblDictionaryValue" tav ON (tr."TotalAssessmentLevel" = tav."Position" AND tav."Dictionary" = 6)
+     LEFT JOIN "tblDictionaryValue" trt ON (tr."RemarkType" = trt."Position" AND trt."Dictionary" = 7);
+
+---------------------------------------
+
+SELECT 
+    tal."Id",
+    tal."Time",
+
+    tu."Id" AS "UserId",
+    tu."FirstName" AS "UserFirstName",
+    tu."LastName" AS "UserLastName",
+    tu."Patronymic" AS "UserPatronymic",
+
+    tsc."Position" AS "ScreenPos",
+    tsc."Name" AS "ScreenName",
+
+    tac."Position" AS "ActionPos",
+    tac."Name" AS "ActionName",
+
+    tal."Description"
+
+FROM "tblAuditLog" tal
+     LEFT JOIN "tblUser" tu ON tal."User" = tu."Id"
+     LEFT JOIN "tblDictionaryValue" tsc ON (tal."Screen" = tsc."Position" AND tsc."Dictionary" = 2)
+     LEFT JOIN "tblDictionaryValue" tac ON (tal."Action" = tac."Position" AND tac."Dictionary" = 1);
+
+---------------------------------------
+
+vwAudit
+
+SELECT 
+    tau."Id",
+    tau."Name",
+    tau."VerificationPeriodStart",
+    tau."VerificationPeriodStop",
+    tau."GroundForVerification",
+    tau."parPlanScheduleOfControlEvent",
+    tau."filePlanScheduleOfControlEvent	",
+    tau."numLocalRegulatory",
+    tau."fileLocalRegulatory",
+    tau."AuditSuperviserEmail",
+    tau."VerificationPeriod",
+    tau."VerificationTermStart",
+    tau."VerficationTermEnd",
+    tau."NumberAndDateLocRegPrepare",
+    tau."NumberAndDateLocRegAcceptance",
+    tau."CAPMonitoringCompletedOnDate",
+    tau."NextCAPMonitoringDate",
+    tau."AuditSubject",
+    tau."MonitoringProgressStatus",
+    tau."CAPMonitoringCompleteDate",
+
+    tao."Id" AS "AuditObjectId",
+    tao."Name" AS "AuditObjectName",
+
+    tre."Id" AS "ResponsibleEmployeeId",
+    tre."FirstName" AS "ResponsibleEmployeeFirstName",
+    tre."LastName" AS "ResponsibleEmployeeLastName",
+    tre."Patronymic" AS "ResponsibleEmployeePatronymic",
+    tre."EMail" AS "ResponsibleEmployeeEmail",
+
+    tas."Id" AS "AuditSuperviserId",
+    tas."FirstName" AS "AuditSuperviserFirstName",
+    tas."LastName" AS "AuditSuperviserLastName",
+    tas."Patronymic" AS "AuditSuperviserPatronymic",
+    tas."EMail" AS "AuditSuperviserEmail"
+
+   FROM "tblAudit" tau
+     LEFT JOIN "tblAuditObject" tao ON tau."AuditObject" = tao."Id"
+     LEFT JOIN "tblUser" tre ON tau."ResponsibleEmployee" = tre."Id"
+     LEFT JOIN "tblUser" tas ON tau."AuditSuperviser" = tas."Id";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
